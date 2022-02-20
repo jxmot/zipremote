@@ -16,7 +16,7 @@ This repository contains a utility that will zip files within a folder, **or** f
 - [Running The Application](#running-the-application)
   * [Requirements](#requirements)
     + [PHP Version](#php-version)
-    + [Server (*Site*)](#server---site--)
+    + [Server (*Site*)](#server)
     + [Client](#client-1)
   * [Preparation](#preparation)
     + [Edit Files](#edit-files)
@@ -29,7 +29,7 @@ This repository contains a utility that will zip files within a folder, **or** f
 - [Known Issues](#known-issues)
 - [The Future](#the-future)
 
-<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+<small><i><a target='_blank' href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
 ## Use Cases
 
