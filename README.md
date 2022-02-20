@@ -16,11 +16,11 @@ This repository contains a utility that will zip files within a folder, **or** f
 - [Running The Application](#running-the-application)
   * [Requirements](#requirements)
     + [PHP Version](#php-version)
-    + [Server (*Site*)](#server)
+    + [Site](#site)
     + [Client](#client-1)
   * [Preparation](#preparation)
     + [Edit Files](#edit-files)
-      - [Site](#site)
+      - [Site](#site-1)
       - [Client](#client-2)
       - [IMPORTANT](#important)
     + [File Locations](#file-locations)
@@ -69,7 +69,7 @@ Both *sides* of this application make use JSON files to contain configurations a
 * **Server**: PHP 7.X or newer.
 * **Client**: PHP 5.6 or newer.
 
-### Server (*Site*)
+### Site
 
 ### Client
 
