@@ -4,6 +4,33 @@
 
 This repository contains a utility that will zip files within a folder, **or** folder contents recursively on a remote web server and then download them to the client.
 
+- [Zip Remote](#zip-remote)
+  * [Use Cases](#use-cases)
+    + [Advantages](#advantages)
+  * [Features](#features)
+    + [Configurable](#configurable)
+    + [Security](#security)
+- [Architecture](#architecture)
+  * [Client](#client)
+  * [Server](#server)
+- [Running The Application](#running-the-application)
+  * [Requirements](#requirements)
+    + [PHP Version](#php-version)
+    + [Server (*Site*)](#server---site--)
+    + [Client](#client-1)
+  * [Preparation](#preparation)
+    + [Edit Files](#edit-files)
+      - [Site](#site)
+      - [Client](#client-2)
+      - [IMPORTANT](#important)
+    + [File Locations](#file-locations)
+- [Extras](#extras)
+- [Possible Issues](#possible-issues)
+- [Known Issues](#known-issues)
+- [The Future](#the-future)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
 ## Use Cases
 
 * **Download server log files**: This is my primary use for this application. I maintain about a dozen servers and I review the logs periodically. I needed *something* to make that task easier and quicker.
@@ -11,13 +38,19 @@ This repository contains a utility that will zip files within a folder, **or** f
 
 ### Advantages
 
-Typically I would use an SSH client with SFTP capabilities(with a "file explorer" window). But logging in, navigating to the correct folders, downloading the files, and doing that  for a dozen sites is tedious and time consuming.
+Typically I would use an SSH client with SFTP capabilities(with a "file explorer" window). But logging in, navigating to the correct folders, downloading the files, and doing that for a dozen sites is tedious and time consuming.
 
 The advantage here is that with a simple PHP script (*see *`test_zipremote.php`) the files can be downloaded (*somewhat securely too*) from all the servers in just a couple of minutes or less.
 
 ## Features
 
+There are two parts in this application. The primary part is the **Site** side. It is to be installed on an accessible server running Apache 2 and PHP V7+.
+
+The second part is the **Client** side. The code provided is more of demonstration of how to use the API. 
+
 ### Configurable
+
+Both *sides* of this application make use JSON files to contain configurations and run-time settings. 
 
 ### Security
 
@@ -82,12 +115,18 @@ Path in repository: `/zipremote/client`
     * index 1 - This is the URL of the "site", including the path to where the site application is stored.
 * `test_zipremote.php` - Demonstration code, edit as needed to test your changes.
 
+See [Extras](#extras) for additional files and information.
+
 #### IMPORTANT
 
 * The `apikeys.json` file in `client` and in `site` are the same file. If you edit one the other **must** be identical. Try to use randomized strings, don't make them easy to guess.
 * The `site` files should be placed in a folder in your servers' `public_html` folder. The name of the containing folder can be anything(almost) and should be referenced in `/zipremote/ziptargets.json`. To obscure the containing folder I like to use a 12 to 16 character string of random letters and numbers.
 
 ### File Locations
+
+# Extras
+
+* HTML/JavaScript Client - `/zipremote/client/demo_gsfapi.html` and `/zipremote/client/gsfapi.php`. The `gsfapi.php` file is called via a `GET` method in `demo_gsfapi.html`. **NOTE**: You will need an HTTP server for `demo_gsfapi.html`, and PHP >=5.6.
 
 # Possible Issues
 
