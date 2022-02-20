@@ -1,0 +1,12 @@
+{
+    "_comment":"replace zipremote below with the name of the folder where you placed the client files.",
+    "list": [
+        [1, "https://a-server/zipremote"],
+        [2, "https://someother_server/path/to/zipremote"],
+        [3, "https://another_server/path/to/zipremote"],
+
+        ["bigsite", "https://bigsite_server/zipremote"],
+        ["site_a", "https://someother_server/path/to/zipremote"],
+        ["another_server", "https://another_server/path/to/zipremote"]
+    ]
+}

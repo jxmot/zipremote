@@ -1,0 +1,6 @@
+{
+    "ziploc":"./ziphere",
+    "dirsep":"/",
+    "forcedl":true,
+    "rmvafter":true
+}
