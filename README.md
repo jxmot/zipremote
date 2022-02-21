@@ -117,21 +117,24 @@ Path in repository: `/zipremote/client`
 
 See [Extras](#extras) for additional files and information.
 
-#### IMPORTANT
+## IMPORTANT
 
-* The `apikeys.json` file in `client` and in `site` are the same file. If you edit one the other **must** be identical. Try to use randomized strings, don't make them easy to guess.
-* The `site` files should be placed in a folder in your servers' `public_html` folder. The name of the containing folder can be anything(almost) and should be referenced in `/zipremote/client/sites.json`. To obscure the containing folder I like to use a 12 to 16 character string of random letters and numbers. For example:
+### JSON Key File
+
+The `apikeys.json` file in `client` and in `site` are the same file. If you edit one the other **must** be identical. Try to use randomized strings, don't make them easy to guess.
+
+### File Locations
+
+The `site` files should be placed in a folder in your servers' `public_html` folder. The name of the containing folder can be anything(almost) and should be referenced in `/zipremote/client/sites.json`. To obscure the containing folder I like to use a 12 to 16 character string of random letters and numbers. For example:
 
 This site:
-`["bigsite", "https://bigsite_server/zipremote"]`
+`["bigsite", "https://bigsite_server/`**`zipremote`**`"]`
 
 Change to:
 `["bigsite", "https://bigsite_server/F7Mh3MRhXEUA"]`
 
 And the `site` files are in:
 `/home/$USER/pubic_html/F7Mh3MRhXEUA`
-
-### File Locations
 
 # Extras
 
