@@ -87,14 +87,14 @@ Path in repository: `/zipremote/site`
 * `example_ziptargets.json` - Edit this file and save it as `ziptargets.json`.
   * `"ziploc"` - This is where the zip files are created prior to download.
   * `"locations"` - This is a two dimensional array. Each element in `locations[]` contains:
-    * index 0 - This is the "path ID" (aka `_PATHID` in `index.php`). It is used by the client to select the zip targets (*path and zip file name*).
-    * index 1 - This is the actual path to the file(s) to be zipped (aka `_TARGET` in `index.php`). It can be *relative*, *absolute*, or a sub-folder of `$HOME` on the platform where the site application is held.
-    * index 2 - This is the *file pattern* used when zipping is **not** recursive (aka `_FILEPATT` in `index.php`).
-    * index 3 - This is is the zip file *name* (aka `_ZIPNAME` in `index.php`). It will be placed in the location specified in `_TARGET`.
+    * index `0` - This is the "path ID" (aka `_PATHID` in `index.php`). It is used by the client to select the zip targets (*path and zip file name*).
+    * index `1` - This is the actual path to the file(s) to be zipped (aka `_TARGET` in `index.php`). It can be *relative*, *absolute*, or a sub-folder of `$HOME` on the platform where the site application is held.
+    * index `2` - This is the *file pattern* used when zipping is **not** recursive (aka `_FILEPATT` in `index.php`).
+    * index `3` - This is is the zip file *name* (aka `_ZIPNAME` in `index.php`). It will be placed in the location specified in `_TARGET`.
 * `example_ipvalid.json.json` - Edit this file and save it as `ipvalid.json`.
   * `"list"` - This is a two dimensional array. Each element in `list[]` contains:
-    * index 0 - A **Valid** IPV4 address that will be allowed access.
-    * index 1 - A *name* associated with the IP address. It is for reference.
+    * index `0` - A **Valid** IPV4 address that will be allowed access.
+    * index `1` - A *name* associated with the IP address. It is for reference.
 * `example_apikeys.json` - Edit this file and save it as `apikeys.json`.
   * `"keylist"` - Each element in `keylist[]` contains a unique string. It is compared to an incoming "key" value from the client. Here is an online utility for generating passwords (*work well as api keys*) - <https://passwordsgenerator.net/>
 * `index.php` - There is no required editing before use. 
@@ -111,8 +111,8 @@ Path in repository: `/zipremote/client`
 * `example_apikeys.json` - Edit this file and save it as `apikeys.json`. It must be identical to the "site" `apikeys.json` file.
 * `example_sites.json` - Edit this file and save it as `sites.json`.
   * `"list"` - This is a two dimensional array. Each element in `list[]` contains:
-    * index 0 - Contains an identifier used for selecting the site, it can be a number or a string.
-    * index 1 - This is the URL of the "site", including the path to where the site application is stored.
+    * index `0` - Contains an identifier used for selecting the site, it can be a number or a string.
+    * index `1` - This is the URL of the "site", including the path to where the site application is stored.
 * `test_zipremote.php` - Demonstration code, edit as needed to test your changes.
 
 See [Extras](#extras) for additional files and information.
@@ -120,13 +120,24 @@ See [Extras](#extras) for additional files and information.
 #### IMPORTANT
 
 * The `apikeys.json` file in `client` and in `site` are the same file. If you edit one the other **must** be identical. Try to use randomized strings, don't make them easy to guess.
-* The `site` files should be placed in a folder in your servers' `public_html` folder. The name of the containing folder can be anything(almost) and should be referenced in `/zipremote/ziptargets.json`. To obscure the containing folder I like to use a 12 to 16 character string of random letters and numbers.
+* The `site` files should be placed in a folder in your servers' `public_html` folder. The name of the containing folder can be anything(almost) and should be referenced in `/zipremote/client/sites.json`. To obscure the containing folder I like to use a 12 to 16 character string of random letters and numbers. For example:
+
+This site:
+`["bigsite", "https://bigsite_server/zipremote"]`
+
+Change to:
+`["bigsite", "https://bigsite_server/F7Mh3MRhXEUA"]`
+
+And the `site` files are in:
+`/home/$USER/pubic_html/F7Mh3MRhXEUA`
 
 ### File Locations
 
 # Extras
 
-* HTML/JavaScript Client - `/zipremote/client/demo_gsfapi.html` and `/zipremote/client/gsfapi.php`. The `gsfapi.php` file is called via a `GET` method in `demo_gsfapi.html`. **NOTE**: You will need an HTTP server for `demo_gsfapi.html`, and PHP >=5.6.
+**HTML/JavaScript Client** - `/zipremote/client/demo_gsfapi.html` and `/zipremote/client/gsfapi.php`. The `gsfapi.php` file is called via a `GET` method in `demo_gsfapi.html`. 
+
+**NOTE**: You will need an HTTP server and PHP>=5.6 for `demo_gsfapi.html`.
 
 # Possible Issues
 
