@@ -9,12 +9,33 @@
     Author: https://github.com/jxmot
     Repository: https://github.com/jxmot/zipremote
 */
-require_once './timezone.php';
-require_once './rightnow.php';
+$itsnow = 0;
+
+function ziptime() {
+$zonefile = './tzone.json';
+$dt = new StdClass();
+
+    // NOTE: call ziptime() before using $itsnow
+    global $itsnow;
+    $itsnow = time();
+
+    if(file_exists($zonefile)) {
+        $zone = json_decode(file_get_contents($zonefile));
+        $dt = new DateTime('now', new DateTimeZone($zone->tz;));
+    } else {
+        $dt = new DateTime('now', new DateTimeZone('America/Chicago'));
+    }
+    clearstatcache($zonefile);
+
+    return $dt->format('["Ymd","His"]');
+}
 
 function zipFiles($tozip, $zipfile, $ziptarg) {
 $zip = new ZipArchive;
 $ret = false;
+
+    // NOTE: call ziptime() before using $itsnow
+    global $itsnow;
 
     if(($zip->open($zipfile, ZipArchive::CREATE | ZipArchive::OVERWRITE)) === true) {
 // NOTE: remove_all_path does NOT work in php 5.6! bad zip files are created!
@@ -22,7 +43,7 @@ $ret = false;
         if(($flist = $zip->addGlob($tozip, (GLOB_NOSORT | GLOB_ERR | GLOB_BRACE), $options)) === false) {
             $ret = false;
         } else {
-            $comment = '{"time": '. time() . ', "dtime": ' . rightnow('json') . ',"count": ' . count($flist) . ',"ziptarg": "' . $ziptarg . '"}';
+            $comment = '{"dtime": ' . ziptime() . ',"time": '. $itsnow . ',"count": ' . count($flist) . ',"ziptarg": "' . $ziptarg . '"}';
             $zip->setArchiveComment($comment);
             $ret = true;
         }
@@ -37,6 +58,9 @@ function zipFilesRecursive($tozip, $zipfile, $ziptarg) {
 $zip = new ZipArchive;
 $ret = false;
 $count = 0;
+
+    // NOTE: call ziptime() before using $itsnow
+    global $itsnow;
 
     if(($zip->open($zipfile, ZipArchive::CREATE | ZipArchive::OVERWRITE)) === true) {
         // Create recursive directory iterator
@@ -55,7 +79,7 @@ $count = 0;
             }
         }
 
-        $comment = '{"time": '. time() . ', "dtime": ' . rightnow('json') . ',"count": ' . $count . ',"ziptarg": "' . $ziptarg . '"}';
+        $comment = '{"dtime": ' . ziptime() . ',"time": '. $itsnow . ',"count": ' . $count . ',"ziptarg": "' . $ziptarg . '"}';
         $zip->setArchiveComment($comment);
 
         // Zip archive will be created only after closing
