@@ -44,9 +44,9 @@ The advantage here is that with a simple PHP script (*see *`test_zipremote.php`)
 
 ## Features
 
-There are two parts in this application. The primary part is the **Site** side. It is to be installed on an accessible server running Apache 2 and PHP V7+.
+There are two parts in this application. The primary part is the **Site** side. It is intended to be installed on an internet accessible server running Apache 2 and PHP V7+.
 
-The second part is the **Client** side. The code provided is more of demonstration of how to use the API. 
+The second part is the **Client** side. The code provided is more of demonstration of how to use the API.
 
 ### Configurable
 
@@ -68,12 +68,20 @@ The security implementation in this application is not the *best*. However it sh
 
 # Running The Application
 
+Before continuing please review the [Preparation](#preparation) section.
+
+This application only runs when a request is received from the "client". 
+
 ## Requirements
 
 ### PHP Version
 
 * **Server**: PHP 7.X or newer.
 * **Client**: PHP 5.6 or newer.
+
+### Apache
+
+Apache 2.4 or newer is recommended.
 
 ### Site
 
@@ -153,6 +161,14 @@ The files `/zipremote/client/demo_gsfapi.html` and `/zipremote/client/gsfapi.php
 The `gsfapi.php` file is called via a `GET` method in `demo_gsfapi.html`, it is where `/zipremote/client/getsitefiles.php` : `getSiteFiles()` is called.
 
 **NOTE**: You will need an HTTP server with PHP>=5.6 *on your local network* for `demo_gsfapi.html`. This will help insure that the intended security remains intact. In addition, you will need to enter your internet-facing IP address into the `site/ipvalid.json` file.
+
+## Using getgqdnip
+
+If you are getting zip files via a relatively **static** IP address (like your home) **and** you are using a DNS service that provides your IP with a domain name then read on...
+
+First take a look at the [getfqdn](<https://github.com/jxmot/getfqdnip>) repository. It will automatically get update of your IP address. This is useful when applications need to verify if a visiting IP address is from "home" or not.
+
+
 
 # Possible Issues
 
