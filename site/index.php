@@ -12,16 +12,22 @@
         pathid: [can be numeric or a string, 
         forcedl: yes
         rmvafter: yes
+
     Author: https://github.com/jxmot
     Repository: https://github.com/jxmot/zipremote
 */
-require_once './ip_isvalid.php';
-
-// make sure the visitor is allowed...
-$ret = ip_isvalid();
-if($ret->r === false) {
-    header('HTTP/1.0 403 Not Allowed');
-    exit;
+// Initially this is turned off, this will provide the 
+// opportunity to get ZipRemote up and running first.
+// Change the following to `true` to enable IP validation.
+$ipv = false;
+if($ipv === true) {
+    require_once './ip_isvalid.php';
+    // make sure the visitor is allowed...
+    $ret = ip_isvalid();
+    if($ret->r === false) {
+        header('HTTP/1.0 403 Not Allowed');
+        exit;
+    }
 }
 
 require_once './areqheaders.php';
