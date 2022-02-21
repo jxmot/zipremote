@@ -58,9 +58,16 @@ $url = null;
 
     * Verify the site ID and key
     * Create the URL
+
     * Create a request header
     * Send the request
+
     * Receive a zip file or error code and handle it
+
+    Returns:
+        null = an operation has failed
+        zip file name = success
+        number = HTTP response code, the endpoint failed
 */
 function getSiteFiles($siteid, $key, $pathid) {
 $siteurl = null;

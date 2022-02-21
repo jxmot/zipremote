@@ -1,5 +1,6 @@
 <?php
 // obtained at - https://www.php.net/manual/en/reserved.variables.httpresponseheader.php
+//     Repository: https://github.com/jxmot/zipremote
 function parseHeaders($headers)
 {
     $head = array();
