@@ -1,0 +1,7 @@
+{
+    "_comment":"Add entries to list[] as needed. Keep the total quantity within reason!",
+    "list": [
+        ["0.0.0.0","example"],
+        ["a.b.c.d","this is the identifying name for the ip owner"]
+    ]
+}

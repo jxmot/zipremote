@@ -1,0 +1,11 @@
+{
+    "ziploc": "./ziphere",
+    "_comment": [
+    ],
+    "locations": [
+        [98, "./testfiles_tozip", "*.{*}", "zip98"],
+        [99, ".", "{*.*}", "zip99"],
+        ["recur", "./testfiles_tozip", null, "recurtest"],
+        [10, "//access-logs", "*.{*}", "zip10"]
+    ],
+}
