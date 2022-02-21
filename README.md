@@ -54,6 +54,12 @@ Both *sides* of this application make use JSON files to contain configurations a
 
 ### Security
 
+The security implementation in this application is not the *best*. However it should be sufficient for most use-cases.
+
+**First Level** - This is accomplished on the "site" side by checking the visiting IP address against a list of "approved" IP addresses.
+
+**Second Level** - This is accomplished by the use of a "key" and a "path ID". With those two parameters the client identifies itself and selects a predetermined path and zip operation(*files only, or recursive*).
+
 # Architecture
 
 ## Client
@@ -128,7 +134,7 @@ The `apikeys.json` file in `client` and in `site` are the same file. If you edit
 The `site` files should be placed in a folder in your servers' `public_html` folder. The name of the containing folder can be anything(almost) and should be referenced in `/zipremote/client/sites.json`. To obscure the containing folder I like to use a 12 to 16 character string of random letters and numbers. For example:
 
 This site:
-`["bigsite", "https://bigsite_server/`**`zipremote`**`"]`
+`["bigsite", "https://bigsite_server/zipremote"]`
 
 Change to:
 `["bigsite", "https://bigsite_server/F7Mh3MRhXEUA"]`
@@ -136,11 +142,17 @@ Change to:
 And the `site` files are in:
 `/home/$USER/pubic_html/F7Mh3MRhXEUA`
 
+Or the equivalent location on your server.
+
 # Extras
 
-**HTML/JavaScript Client** - `/zipremote/client/demo_gsfapi.html` and `/zipremote/client/gsfapi.php`. The `gsfapi.php` file is called via a `GET` method in `demo_gsfapi.html`. 
+## HTML Demo Client
 
-**NOTE**: You will need an HTTP server and PHP>=5.6 for `demo_gsfapi.html`.
+The files `/zipremote/client/demo_gsfapi.html` and `/zipremote/client/gsfapi.php` were created to demonstrate the use of JavaScript to access ZipRemote API. 
+
+The `gsfapi.php` file is called via a `GET` method in `demo_gsfapi.html`, it is where `/zipremote/client/getsitefiles.php` : `getSiteFiles()` is called.
+
+**NOTE**: You will need an HTTP server with PHP>=5.6 *on your local network* for `demo_gsfapi.html`. This will help insure that the intended security remains intact. In addition, you will need to enter your internet-facing IP address into the `site/ipvalid.json` file.
 
 # Possible Issues
 
