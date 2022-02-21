@@ -2,3 +2,4 @@ _*
 error_log
 out.txt
 *.session
+*.bak
