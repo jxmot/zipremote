@@ -12,11 +12,12 @@
         the associated name found in the `ipvalid.json`
         file.
 
-    NOTE: This is only a simple security method, it 
-    should not be used where security is crucial.
+    NOTES: 
+        This is only a simple security method, it should
+        not be used where security is crucial.
 
-    And it may not be suitable for use with a high 
-    volume of IP traffic.
+        And it may not be suitable for use with a high 
+        volume of IP traffic.
 
     USAGE: 
         // this would typically be one of the first 
