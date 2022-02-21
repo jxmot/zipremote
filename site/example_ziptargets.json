@@ -1,6 +1,10 @@
 {
     "ziploc": "./ziphere",
     "_comment": [
+        "locations[x][0] - path ID, aka pathid",
+        "locations[x][1] - path to zip targe location",
+        "locations[x][2] - GLOB file pattern, 'null' for recursive zip",
+        "locations[x][3] - name of zip file"
     ],
     "locations": [
         [98, "./testfiles_tozip", "*.{*}", "zip98"],

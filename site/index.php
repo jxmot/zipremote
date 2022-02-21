@@ -6,8 +6,12 @@
     The locations of the files are predetermined and found 
     in ziptargets.json. See example_ziptargets.json.
 
-    All parameters are passed in via HTTP request header.
+    All parameters are passed in via HTTP request header:
 
+        key: your_key_here
+        pathid: [can be numeric or a string, 
+        forcedl: yes
+        rmvafter: yes
     Author: https://github.com/jxmot
     Repository: https://github.com/jxmot/zipremote
 */
@@ -33,7 +37,7 @@ $httpresp = null;
 
 // get the request header...
 $reqheader = apache_request_headers();
-// get parameters...
+// get parameters from the header...
 //      api key
 if(isset($reqheader['KEY'])) {
     $apikey = $reqheader['KEY'];
