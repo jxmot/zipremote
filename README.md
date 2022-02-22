@@ -90,7 +90,7 @@ Edit `/zipremote/client/test_zipremote.php` to match the changes you will make t
 
 #### Run!
 
-At a command line run this - `php ./test_zipremote.php`
+At a local command line run this from within the `client` folder - `php ./test_zipremote.php`
 
 ## Preparation
 
