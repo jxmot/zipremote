@@ -9,7 +9,7 @@
     All parameters are passed in via HTTP request header:
 
         key: your_key_here
-        pathid: [can be numeric or a string, 
+        pathid: [can be numeric or a string] 
         forcedl: yes
         rmvafter: yes
 
