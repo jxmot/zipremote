@@ -38,7 +38,7 @@ This repository contains a utility that will zip files within a folder, **or** f
 
 ### Advantages
 
-Typically I would use an SSH client with SFTP capabilities(with a "file explorer" window). But logging in, navigating to the correct folders, downloading the files, and doing that for a dozen sites is tedious and time consuming.
+Typically I would use an SSH client with SFTP capabilitiesand with a "file explorer" window. But logging in, navigating to the correct folders, downloading the files, and doing that for a dozen sites is tedious and time consuming.
 
 The advantage here is that with a simple PHP script (*see *`test_zipremote.php`) the files can be downloaded (*somewhat securely too*) from all the servers in just a couple of minutes or less.
 
@@ -56,11 +56,17 @@ Both *sides* of this application make use JSON files to contain configurations a
 
 The security implementation in this application is not the *best*. However it should be sufficient for most use-cases.
 
-**First Level** - This is accomplished on the "site" side by checking the visiting IP address against a list of "approved" IP addresses.
+**First Level** - This is accomplished on the "site" side by checking the visiting IP address against a list of "approved" IP addresses. **NOTE**: This has been disabled in order to make it easier to get everything running. 
 
 **Second Level** - This is accomplished by the use of a "key" and a "path ID". With those two parameters the client identifies itself and selects a predetermined path and zip operation(*files only, or recursive*).
 
-# Architecture
+**Third Level** - Do not use the name `zipremote` to contain the `site` files. Make it obscure by using a randomized name.
+
+# Architecture Overview
+
+<p align="center">
+  <img src="./mdimg/zipremote-arch.png" alt="Architecture Overview" txt="Zip Remote Architecture"  width="60%" height="80%"/>
+</p>
 
 ## Client
 
@@ -83,9 +89,9 @@ This application only runs when a request is received from the "client".
 
 Apache 2.4 or newer is recommended.
 
-### Site
-
 ### Client
+
+If you want to run the [HTML/JavaScript/PHP demonstration client](#html_demo_client) you will need a 
 
 ## Preparation
 
@@ -111,7 +117,8 @@ Path in repository: `/zipremote/site`
     * index `1` - A *name* associated with the IP address. It is for reference.
 * `example_apikeys.json` - Edit this file and save it as `apikeys.json`.
   * `"keylist"` - Each element in `keylist[]` contains a unique string. It is compared to an incoming "key" value from the client. Here is an online utility for generating passwords (*work well as api keys*) - <https://passwordsgenerator.net/>
-* `index.php` - There is no required editing before use. 
+* `index.php` - There is no required editing before use.
+  * `$ipv` - This enables or disables IP validation. By default is disabled. Set it to `true` to enable it after you have IP addresses in `ipvalid.json`.
 
 #### Client
 
@@ -146,6 +153,7 @@ This site:
 
 Change to:
 `["bigsite", "https://bigsite_server/F7Mh3MRhXEUA"]`
+Where **`F7Mh3MRhXEUA`** is your new key.
 
 And the `site` files are in:
 `/home/$USER/pubic_html/F7Mh3MRhXEUA`
@@ -156,19 +164,11 @@ Or the equivalent location on your server.
 
 ## HTML Demo Client
 
-The files `/zipremote/client/demo_gsfapi.html` and `/zipremote/client/gsfapi.php` were created to demonstrate the use of JavaScript to access ZipRemote API. 
+The files `/zipremote/client/demo_gsfapi.html` and `/zipremote/client/gsfapi.php` were created to demonstrate the use of JavaScript to access the ZipRemote API. 
 
-The `gsfapi.php` file is called via a `GET` method in `demo_gsfapi.html`, it is where `/zipremote/client/getsitefiles.php` : `getSiteFiles()` is called.
+The `gsfapi.php` file is called via a `GET` method in `demo_gsfapi.html`, it is where `/zipremote/client/getsitefiles.php`:`getSiteFiles()` is called.
 
-**NOTE**: You will need an HTTP server with PHP>=5.6 *on your local network* for `demo_gsfapi.html`. This will help insure that the intended security remains intact. In addition, you will need to enter your internet-facing IP address into the `site/ipvalid.json` file.
-
-## Using getgqdnip
-
-If you are getting zip files via a relatively **static** IP address (like your home) **and** you are using a DNS service that provides your IP with a domain name then read on...
-
-First take a look at the [getfqdn](<https://github.com/jxmot/getfqdnip>) repository. It will automatically get update of your IP address. This is useful when applications need to verify if a visiting IP address is from "home" or not.
-
-
+**NOTE**: You will need an HTTP server with PHP>=5.6 *on your local network* for `demo_gsfapi.html`. This will help insure that the intended security remains intact. In addition, you will need to enter your internet-facing IP address into the `site/ipvalid.json` file if you have enabled that security feature.
 
 # Possible Issues
 
