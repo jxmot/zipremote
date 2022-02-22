@@ -10,26 +10,27 @@ This repository contains a utility that will zip files within a folder, **or** f
   * [Features](#features)
     + [Configurable](#configurable)
     + [Security](#security)
-- [Architecture](#architecture)
-  * [Client](#client)
-  * [Server](#server)
 - [Running The Application](#running-the-application)
   * [Requirements](#requirements)
-    + [PHP Version](#php-version)
+    + [PHP Versions](#php-versions)
+    + [Apache](#apache)
     + [Site](#site)
-    + [Client](#client-1)
+    + [Client](#client)
+      - [Run!](#run-)
   * [Preparation](#preparation)
     + [Edit Files](#edit-files)
       - [Site](#site-1)
-      - [Client](#client-2)
-      - [IMPORTANT](#important)
+      - [Client](#client-1)
+  * [IMPORTANT](#important)
+    + [JSON Key File](#json-key-file)
     + [File Locations](#file-locations)
 - [Extras](#extras)
+  * [HTML Demo Client](#html-demo-client)
 - [Possible Issues](#possible-issues)
 - [Known Issues](#known-issues)
 - [The Future](#the-future)
 
-<small><i><a target='_blank' href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
 ## Use Cases
 
@@ -40,7 +41,7 @@ This repository contains a utility that will zip files within a folder, **or** f
 
 Typically I would use an SSH client with SFTP capabilitiesand with a "file explorer" window. But logging in, navigating to the correct folders, downloading the files, and doing that for a dozen sites is tedious and time consuming.
 
-The advantage here is that with a simple PHP script (*see *`test_zipremote.php`) the files can be downloaded (*somewhat securely too*) from all the servers in just a couple of minutes or less.
+The advantage here is that with a simple PHP script (*see* `test_zipremote.php`) the files can be downloaded (*somewhat securely too*) from all the servers in just a couple of minutes or less.
 
 ## Features
 
@@ -60,17 +61,7 @@ The security implementation in this application is not the *best*. However it sh
 
 **Second Level** - This is accomplished by the use of a "key" and a "path ID". With those two parameters the client identifies itself and selects a predetermined path and zip operation(*files only, or recursive*).
 
-**Third Level** - Do not use the name `zipremote` to contain the `site` files. Make it obscure by using a randomized name.
-
-# Architecture Overview
-
-<p align="center">
-  <img src="./mdimg/zipremote-arch.png" alt="Architecture Overview" txt="Zip Remote Architecture"  width="60%" height="80%"/>
-</p>
-
-## Client
-
-## Server
+**Third Level** - Do not use the name `zipremote` or `site` to contain the `site` files. Make it obscure by using a randomized name.
 
 # Running The Application
 
@@ -80,7 +71,7 @@ This application only runs when a request is received from the "client".
 
 ## Requirements
 
-### PHP Version
+### PHP Versions
 
 * **Server**: PHP 7.X or newer.
 * **Client**: PHP 5.6 or newer.
@@ -89,9 +80,17 @@ This application only runs when a request is received from the "client".
 
 Apache 2.4 or newer is recommended.
 
+### Site
+
+After editing the [Site](#site) JSON files copy all files in the `site` folder to a folder on your website's server.
+
 ### Client
 
-If you want to run the [HTML/JavaScript/PHP demonstration client](#html_demo_client) you will need a 
+Edit `/zipremote/client/test_zipremote.php` to match the changes you will make to the [Client](#client) JSON files.
+
+#### Run!
+
+At a command line run this - `php ./test_zipremote.php`
 
 ## Preparation
 
@@ -101,7 +100,7 @@ Prior to running there are some files that will require editing. The files and c
 
 #### Site
 
-Path in repository: `/zipremote/site`
+Path in repository: `/site`
 
 * `tzone.json` - Put your timezone in this file. A decent source for this is at <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones>. Find your location and use the string found under the "TZ database name" column.
 * `example_ziptargets.json` - Edit this file and save it as `ziptargets.json`.
@@ -122,7 +121,7 @@ Path in repository: `/zipremote/site`
 
 #### Client
 
-Path in repository: `/zipremote/client`
+Path in repository: `/client`
 
 * `gsfcfg.json` - There is no required editing before use. This file contains:
   * `"ziploc"` - The location where downloaded zip files will be saved.
@@ -146,16 +145,15 @@ The `apikeys.json` file in `client` and in `site` are the same file. If you edit
 
 ### File Locations
 
-The `site` files should be placed in a folder in your servers' `public_html` folder. The name of the containing folder can be anything(almost) and should be referenced in `/zipremote/client/sites.json`. To obscure the containing folder I like to use a 12 to 16 character string of random letters and numbers. For example:
+The `site` files should be placed in a folder in your servers' `public_html` folder. The name of the containing folder can be anything(almost) and should be referenced in `/client/sites.json`. To obscure the containing folder I like to use a 12 to 16 character string of random letters and numbers. For example:
 
 This site:
 `["bigsite", "https://bigsite_server/zipremote"]`
 
 Change to:
 `["bigsite", "https://bigsite_server/F7Mh3MRhXEUA"]`
-Where **`F7Mh3MRhXEUA`** is your new key.
 
-And the `site` files are in:
+And the `site` files get copied into:
 `/home/$USER/pubic_html/F7Mh3MRhXEUA`
 
 Or the equivalent location on your server.
@@ -179,3 +177,6 @@ The `gsfapi.php` file is called via a `GET` method in `demo_gsfapi.html`, it is 
 This section will be updated when ever new issues are discovered, but not yet resolved.
 
 # The Future
+
+I will most likely create the inverse of this application, it will upload zip files and unzip them on the server to desired locations.
+
