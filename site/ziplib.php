@@ -27,6 +27,7 @@ $dt = new StdClass();
     }
     clearstatcache($zonefile);
 
+    $dt->setTimestamp($itsnow);
     return $dt->format('["Ymd","His"]');
 }
 
