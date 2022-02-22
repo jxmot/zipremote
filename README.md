@@ -10,26 +10,27 @@ This repository contains a utility that will zip files within a folder, **or** f
   * [Features](#features)
     + [Configurable](#configurable)
     + [Security](#security)
-- [Architecture](#architecture)
-  * [Client](#client)
-  * [Server](#server)
 - [Running The Application](#running-the-application)
   * [Requirements](#requirements)
-    + [PHP Version](#php-version)
+    + [PHP Versions](#php-versions)
+    + [Apache](#apache)
     + [Site](#site)
-    + [Client](#client-1)
+    + [Client](#client)
+      - [Run!](#run-)
   * [Preparation](#preparation)
     + [Edit Files](#edit-files)
       - [Site](#site-1)
-      - [Client](#client-2)
-      - [IMPORTANT](#important)
+      - [Client](#client-1)
+  * [IMPORTANT](#important)
+    + [JSON Key File](#json-key-file)
     + [File Locations](#file-locations)
 - [Extras](#extras)
+  * [HTML Demo Client](#html-demo-client)
 - [Possible Issues](#possible-issues)
 - [Known Issues](#known-issues)
 - [The Future](#the-future)
 
-<small><i><a target='_blank' href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
 ## Use Cases
 
@@ -38,9 +39,9 @@ This repository contains a utility that will zip files within a folder, **or** f
 
 ### Advantages
 
-Typically I would use an SSH client with SFTP capabilities(with a "file explorer" window). But logging in, navigating to the correct folders, downloading the files, and doing that for a dozen sites is tedious and time consuming.
+Typically I would use an SSH client with SFTP capabilitiesand with a "file explorer" window. But logging in, navigating to the correct folders, downloading the files, and doing that for a dozen sites is tedious and time consuming.
 
-The advantage here is that with a simple PHP script (*see *`test_zipremote.php`) the files can be downloaded (*somewhat securely too*) from all the servers in just a couple of minutes or less.
+The advantage here is that with a simple PHP script (*see* `test_zipremote.php`) the files can be downloaded (*somewhat securely too*) from all the servers in just a couple of minutes or less.
 
 ## Features
 
@@ -56,15 +57,11 @@ Both *sides* of this application make use JSON files to contain configurations a
 
 The security implementation in this application is not the *best*. However it should be sufficient for most use-cases.
 
-**First Level** - This is accomplished on the "site" side by checking the visiting IP address against a list of "approved" IP addresses.
+**First Level** - This is accomplished on the "site" side by checking the visiting IP address against a list of "approved" IP addresses. **NOTE**: This has been disabled in order to make it easier to get everything running. 
 
 **Second Level** - This is accomplished by the use of a "key" and a "path ID". With those two parameters the client identifies itself and selects a predetermined path and zip operation(*files only, or recursive*).
 
-# Architecture
-
-## Client
-
-## Server
+**Third Level** - Do not use the name `zipremote` or `site` to contain the `site` files. Make it obscure by using a randomized name.
 
 # Running The Application
 
@@ -74,7 +71,7 @@ This application only runs when a request is received from the "client".
 
 ## Requirements
 
-### PHP Version
+### PHP Versions
 
 * **Server**: PHP 7.X or newer.
 * **Client**: PHP 5.6 or newer.
@@ -85,7 +82,15 @@ Apache 2.4 or newer is recommended.
 
 ### Site
 
+After editing the [Site](#site) JSON files copy all files in the `site` folder to a folder on your website's server.
+
 ### Client
+
+Edit `/zipremote/client/test_zipremote.php` to match the changes you will make to the [Client](#client) JSON files.
+
+#### Run!
+
+At a command line run this - `php ./test_zipremote.php`
 
 ## Preparation
 
@@ -95,7 +100,7 @@ Prior to running there are some files that will require editing. The files and c
 
 #### Site
 
-Path in repository: `/zipremote/site`
+Path in repository: `/site`
 
 * `tzone.json` - Put your timezone in this file. A decent source for this is at <https://en.wikipedia.org/wiki/List_of_tz_database_time_zones>. Find your location and use the string found under the "TZ database name" column.
 * `example_ziptargets.json` - Edit this file and save it as `ziptargets.json`.
@@ -111,11 +116,12 @@ Path in repository: `/zipremote/site`
     * index `1` - A *name* associated with the IP address. It is for reference.
 * `example_apikeys.json` - Edit this file and save it as `apikeys.json`.
   * `"keylist"` - Each element in `keylist[]` contains a unique string. It is compared to an incoming "key" value from the client. Here is an online utility for generating passwords (*work well as api keys*) - <https://passwordsgenerator.net/>
-* `index.php` - There is no required editing before use. 
+* `index.php` - There is no required editing before use.
+  * `$ipv` - This enables or disables IP validation. By default is disabled. Set it to `true` to enable it after you have IP addresses in `ipvalid.json`.
 
 #### Client
 
-Path in repository: `/zipremote/client`
+Path in repository: `/client`
 
 * `gsfcfg.json` - There is no required editing before use. This file contains:
   * `"ziploc"` - The location where downloaded zip files will be saved.
@@ -139,7 +145,7 @@ The `apikeys.json` file in `client` and in `site` are the same file. If you edit
 
 ### File Locations
 
-The `site` files should be placed in a folder in your servers' `public_html` folder. The name of the containing folder can be anything(almost) and should be referenced in `/zipremote/client/sites.json`. To obscure the containing folder I like to use a 12 to 16 character string of random letters and numbers. For example:
+The `site` files should be placed in a folder in your servers' `public_html` folder. The name of the containing folder can be anything(almost) and should be referenced in `/client/sites.json`. To obscure the containing folder I like to use a 12 to 16 character string of random letters and numbers. For example:
 
 This site:
 `["bigsite", "https://bigsite_server/zipremote"]`
@@ -147,7 +153,7 @@ This site:
 Change to:
 `["bigsite", "https://bigsite_server/F7Mh3MRhXEUA"]`
 
-And the `site` files are in:
+And the `site` files get copied into:
 `/home/$USER/pubic_html/F7Mh3MRhXEUA`
 
 Or the equivalent location on your server.
@@ -156,19 +162,11 @@ Or the equivalent location on your server.
 
 ## HTML Demo Client
 
-The files `/zipremote/client/demo_gsfapi.html` and `/zipremote/client/gsfapi.php` were created to demonstrate the use of JavaScript to access ZipRemote API. 
+The files `/zipremote/client/demo_gsfapi.html` and `/zipremote/client/gsfapi.php` were created to demonstrate the use of JavaScript to access the ZipRemote API. 
 
-The `gsfapi.php` file is called via a `GET` method in `demo_gsfapi.html`, it is where `/zipremote/client/getsitefiles.php` : `getSiteFiles()` is called.
+The `gsfapi.php` file is called via a `GET` method in `demo_gsfapi.html`, it is where `/zipremote/client/getsitefiles.php`:`getSiteFiles()` is called.
 
-**NOTE**: You will need an HTTP server with PHP>=5.6 *on your local network* for `demo_gsfapi.html`. This will help insure that the intended security remains intact. In addition, you will need to enter your internet-facing IP address into the `site/ipvalid.json` file.
-
-## Using getgqdnip
-
-If you are getting zip files via a relatively **static** IP address (like your home) **and** you are using a DNS service that provides your IP with a domain name then read on...
-
-First take a look at the [getfqdn](<https://github.com/jxmot/getfqdnip>) repository. It will automatically get update of your IP address. This is useful when applications need to verify if a visiting IP address is from "home" or not.
-
-
+**NOTE**: You will need an HTTP server with PHP>=5.6 *on your local network* for `demo_gsfapi.html`. This will help insure that the intended security remains intact. In addition, you will need to enter your internet-facing IP address into the `site/ipvalid.json` file if you have enabled that security feature.
 
 # Possible Issues
 
@@ -179,3 +177,6 @@ First take a look at the [getfqdn](<https://github.com/jxmot/getfqdnip>) reposit
 This section will be updated when ever new issues are discovered, but not yet resolved.
 
 # The Future
+
+I will most likely create the inverse of this application, it will upload zip files and unzip them on the server to desired locations.
+
