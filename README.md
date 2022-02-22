@@ -118,6 +118,7 @@ Path in repository: `/site`
   * `"keylist"` - Each element in `keylist[]` contains a unique string. It is compared to an incoming "key" value from the client. Here is an online utility for generating passwords (*work well as api keys*) - <https://passwordsgenerator.net/>
 * `index.php` - There is no required editing before use.
   * `$ipv` - This enables or disables IP validation. By default is disabled. Set it to `true` to enable it after you have IP addresses in `ipvalid.json`.
+* `.htaccess`- There is no required editing before use. This will allow URLs to work without the `.php` extension.
 
 #### Client
 
