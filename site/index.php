@@ -115,16 +115,16 @@ if(isset($apikey)) {
             $goodkeys = json_decode(file_get_contents($keyfile));
             if(in_array($apikey, $goodkeys->keylist) == true) {
                 if(file_exists($pathfile)) {
-                    $logpaths = json_decode(file_get_contents($pathfile));
+                    $zippaths = json_decode(file_get_contents($pathfile));
     
                     header('pathid: ' . $pathid);
                     header('pathfile: ' . $pathfile);
                     header('dirsep: ' . DIRECTORY_SEPARATOR);
-                    header('ziploc: ' . $logpaths->ziploc);
+                    header('ziploc: ' . $zippaths->ziploc);
     
-                    if(isset($logpaths->locations) && isset($logpaths->ziploc)) {
+                    if(isset($zippaths->locations) && isset($zippaths->ziploc)) {
                         $found = false;
-                        foreach($logpaths->locations as $loc) {
+                        foreach($zippaths->locations as $loc) {
                             if($pathid === $loc[_PATHID]) {
                                 if(strpos($loc[_TARGET], '//') !== false) {
                                     $dlpath = getenv('HOME') . substr($loc[_TARGET], 1);
@@ -144,7 +144,7 @@ if(isset($apikey)) {
                                     header('recur: ' . $dlpatt);
                                 }
     
-                                $zipfile = $logpaths->ziploc . '/' . $loc[_ZIPNAME] . '.zip';
+                                $zipfile = $zippaths->ziploc . '/' . $loc[_ZIPNAME] . '.zip';
                                 header('zipname: ' . $loc[_ZIPNAME] . '.zip');
                                 header('zipfile: ' . $zipfile);
     
