@@ -39,15 +39,15 @@ This repository contains a utility that will zip files within a folder, **or** f
 
 ### Advantages
 
-Typically I would use an SSH client with SFTP capabilitiesand with a "file explorer" window. But logging in, navigating to the correct folders, downloading the files, and doing that for a dozen sites is tedious and time consuming.
+Typically I would use an SSH client with SFTP capabilities with a "file explorer" window. But logging in, navigating to the correct folders, downloading the files, and doing that for a dozen sites is tedious and time consuming.
 
-The advantage here is that with a simple PHP script (*see* `test_zipremote.php`) the files can be downloaded (*somewhat securely too*) from all the servers in just a couple of minutes or less.
+The advantage here is that with a simple PHP script (*see* `client/test_zipremote.php`) the files can be downloaded (*somewhat securely too*) from all the servers in just a couple of minutes or less.
 
 ## Features
 
 There are two parts in this application. The primary part is the **Site** side. It is intended to be installed on an internet accessible server running Apache 2 and PHP V7+.
 
-The second part is the **Client** side. The code provided is more of demonstration of how to use the API.
+The second part is the **Client** side and the code provided is more of a demonstration of how to use the API.
 
 ### Configurable
 
@@ -57,19 +57,23 @@ Both *sides* of this application make use JSON files to contain configurations a
 
 The security implementation in this application is not the *best*. However it should be sufficient for most use-cases.
 
-**First Level** - This is accomplished on the "site" side by checking the visiting IP address against a list of "approved" IP addresses. **NOTE**: This has been disabled in order to make it easier to get everything running. 
+**First Level** - This is accomplished on the "site" side by checking the visiting IP address against a list of "approved" IP addresses. **NOTE**: This has been disabled in order to make it easier to get everything running. And later you can add IPs to `ipvalid.json`.
 
 **Second Level** - This is accomplished by the use of a "key" and a "path ID". With those two parameters the client identifies itself and selects a predetermined path and zip operation(*files only, or recursive*).
 
-**Third Level** - Do not use the name `zipremote` or `site` to contain the `site` files. Make it obscure by using a randomized name.
+**Third Level** - When you create the folder to contain the `site` files do not use the name `zipremote` or `site` to contain the `site` files. Make it obscure by using a randomized name.
 
 # Running The Application
 
 Before continuing please review the [Preparation](#preparation) section.
 
-This application only runs when a request is received from the "client". 
+This application only runs when a request is received from a "client". It responds to HTTP GET and PUT requests with HTTP error codes and a JSON formatted response.
 
 ## Requirements
+
+### Server
+
+I'm using this application on Linux/cPanel servers.
 
 ### PHP Versions
 
@@ -82,15 +86,24 @@ Apache 2.4 or newer is recommended.
 
 ### Site
 
-After editing the [Site](#site) JSON files copy all files in the `site` folder to a folder on your website's server.
+After editing the [Site](#site-1) JSON files copy all files in the `site` folder to a folder on your website's server.
 
 ### Client
 
-Edit `/zipremote/client/test_zipremote.php` to match the changes you will make to the [Client](#client) JSON files.
+Edit `/zipremote/client/test_zipremote.php` to match the changes you will make to the [Client](#client-1) JSON files.
 
-#### Run!
+### Tools
 
-At a local command line run this from within the `client` folder - `php ./test_zipremote.php`
+My primary development environment is in Windows and this what use:
+
+* SSH/SFTP - I use a *free* SSH client from [Bitvise](<https://www.bitvise.com/>).
+* Text editor - Your choice
+* PC Web server - I use [XAMPP](<https://www.apachefriends.org/index.html>) for running the [HTML Demo Client](#html-demo-client)
+* API tester - I use [Postman](<https://www.postman.com/>) for developing and testing  endpoints.
+
+## Run!
+
+At a local command line run this from within the `client` folder - `php ./test_zipremote.php`.
 
 ## Preparation
 
@@ -142,7 +155,7 @@ See [Extras](#extras) for additional files and information.
 
 ### JSON Key File
 
-The `apikeys.json` file in `client` and in `site` are the same file. If you edit one the other **must** be identical. Try to use randomized strings, don't make them easy to guess.
+The `apikeys.json` file in the `client` and in `site` are the same file. If you edit one the other **must** be identical. Try to use randomized strings, don't make them easy to guess.
 
 ### File Locations
 
@@ -181,3 +194,5 @@ This section will be updated when ever new issues are discovered, but not yet re
 
 I will most likely create the inverse of this application, it will upload zip files and unzip them on the server to desired locations.
 
+---
+<img src="http://webexperiment.info/extcounter/mdcount.php?id=zipremote">
