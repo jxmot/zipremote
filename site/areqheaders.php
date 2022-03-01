@@ -5,9 +5,8 @@
  
     Obtained From:
         https://stackoverflow.com/questions/2916232/call-to-undefined-function-apache-request-headers
-        https://pastebin.com/2NGARe49 <- oringinal source
+        https://pastebin.com/2NGARe49 <- original source
 
-    Author: https://github.com/jxmot
     Repository: https://github.com/jxmot/zipremote
 */
 if(!function_exists('apache_request_headers')) {
@@ -32,6 +31,9 @@ if(!function_exists('apache_request_headers')) {
                 }
             }
         }
+        if(isset($_SERVER['CONTENT_TYPE'])) $arh['Content-Type'] = $_SERVER['CONTENT_TYPE'];
+        if(isset($_SERVER['CONTENT_LENGTH'])) $arh['Content-Length'] = $_SERVER['CONTENT_LENGTH'];
         return $arh;
     }
 }
+?>
