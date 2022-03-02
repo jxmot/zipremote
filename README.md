@@ -36,19 +36,19 @@ This repository contains a utility that will zip files within a folder, **or** f
 
 * **Download server log files**: This is my primary use for this application. I maintain about a dozen servers and I review the logs periodically. I needed *something* to make that task easier and quicker.
 * **Backup websites**: This application can *recursively* zip files from a starting location.
-* **Distribute Content or Files**: This application can help with the upload and unzip of website files. 
+* **Distribute Content or Files**: This application can help with the upload and unzip of website or server files. 
 
 ### Advantages
 
 Typically I would use an SSH client with SFTP capabilities with a "file explorer" window. But logging in, navigating to the correct folders, downloading the files, and doing that for a dozen sites is tedious and time consuming.
 
-The advantage here is that with a simple PHP script (*see* `client/test_zipremote.php`) the files can be downloaded (*somewhat securely too*) from all the servers in just a couple of minutes or less.
+The advantage here is that with a simple PHP script (*see* `client/test_getZipFile.php`) the files can be downloaded (*somewhat securely too*) from all the servers in just a couple of minutes or less.
 
 ## Features
 
 There are two parts in this application. The primary part is the **Site** side. It is intended to be installed on an internet accessible server running Apache 2 and PHP V7+.
 
-The second part is the **Client** side and the code provided is more of a demonstration of how to use the API.
+The second part is the **Client** side and the code provided is more of a demonstration of how to use ZipRemote.
 
 ### Configurable
 
@@ -60,7 +60,7 @@ The security implementation in this application is not the *best*. However it sh
 
 **First Level** - This is accomplished on the "site" side by checking the visiting IP address against a list of "approved" IP addresses. **NOTE**: This has been disabled in order to make it easier to get everything running. And later you can add IPs to `ipvalid.json`.
 
-**Second Level** - This is accomplished by the use of a "key" and a "path ID". With those two parameters the client identifies itself and selects a predetermined path and zip operation(*files only, or recursive*).
+**Second Level** - This is accomplished by the use of a "key" and a "path ID". With those two parameters the client identifies itself and selects a predetermined path and zip operation. 
 
 **Third Level** - When you create the folder to contain the `site` files do not use the name `zipremote` or `site` to contain the `site` files. Make it obscure by using a randomized name.
 
@@ -69,20 +69,6 @@ The security implementation in this application is not the *best*. However it sh
 Before continuing please review the [Preparation](#preparation) section.
 
 This application only runs when a request is received from a "client". It responds to HTTP GET and PUT requests with HTTP error codes and a JSON formatted response.
-
-## Overview
-
-### Download a Zip File
-
-<p align="center">
-  <img src="./mdimg/overview-GET.jpg" style="width:60%"; alt="Overview Diagram" txt="Overview Diagram"/>
-</p>
-
-### Upload a Zip File
-
-<p align="center">
-  <img src="./mdimg/overview-PUT.jpg" style="width:60%"; alt="Overview Diagram" txt="Overview Diagram"/>
-</p>
 
 ## Requirements
 
@@ -186,6 +172,31 @@ And the `site` files get copied into:
 `/home/$USER/pubic_html/F7Mh3MRhXEUA`
 
 Or the equivalent location on your server.
+
+# Design Details
+
+## Overview
+
+### Download a Zip File
+
+<p align="center">
+  <img src="./mdimg/overview-GET.jpg" style="width:60%"; alt="Overview Diagram" txt="Overview Diagram"/>
+</p>
+
+### Upload a Zip File
+
+<p align="center">
+  <img src="./mdimg/overview-PUT.jpg" style="width:60%"; alt="Overview Diagram" txt="Overview Diagram"/>
+</p>
+
+### Details
+
+#### Client and Site Interaction with JSON Files
+
+<p align="center">
+  <img src="./mdimg/site_client_json.jpg" style="width:80%"; alt="Site and Client with JSON" txt="Detailed Diagram"/>
+</p>
+
 
 # Extras
 
