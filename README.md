@@ -36,6 +36,7 @@ This repository contains a utility that will zip files within a folder, **or** f
 
 * **Download server log files**: This is my primary use for this application. I maintain about a dozen servers and I review the logs periodically. I needed *something* to make that task easier and quicker.
 * **Backup websites**: This application can *recursively* zip files from a starting location.
+* **Distribute Content or Files**: This application can help with the upload and unzip of website files. 
 
 ### Advantages
 
@@ -68,6 +69,20 @@ The security implementation in this application is not the *best*. However it sh
 Before continuing please review the [Preparation](#preparation) section.
 
 This application only runs when a request is received from a "client". It responds to HTTP GET and PUT requests with HTTP error codes and a JSON formatted response.
+
+## Overview
+
+### Download a Zip File
+
+<p align="center">
+  <img src="./mdimg/overview-GET.jpg" style="width:60%"; alt="Overview Diagram" txt="Overview Diagram"/>
+</p>
+
+### Upload a Zip File
+
+<p align="center">
+  <img src="./mdimg/overview-PUT.jpg" style="width:60%"; alt="Overview Diagram" txt="Overview Diagram"/>
+</p>
 
 ## Requirements
 
