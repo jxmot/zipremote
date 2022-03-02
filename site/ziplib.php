@@ -14,6 +14,8 @@
 
     Author: https://github.com/jxmot
     Repository: https://github.com/jxmot/zipremote
+
+    PHP ZipArchive info: https://www.php.net/manual/en/class.ziparchive.php
 */
 require_once './timezone.php';
 
