@@ -2,7 +2,7 @@
 
 # Zip Remote
 
-This repository contains a utility that will zip files within a folder, **or** folder contents recursively on a remote web server and then download them to the client.
+This repository contains a utility that will zip files within a folder, **or** folder contents recursively on a remote web server and then download them to the client. The utility also has the ability to upload a zip file and optionally extract all or part of its contents.
 
 - [Zip Remote](#zip-remote)
   * [Use Cases](#use-cases)
@@ -118,7 +118,7 @@ My primary development environment is in Windows and this what use:
 
 ## Run!
 
-At a local command line run this from within the `client` folder - `php ./test_zipremote.php`.
+At a local command line run this from within the `client` folder - `php ./test_gettZipFile.php`.
 
 ## Preparation
 
@@ -162,7 +162,7 @@ Path in repository: `/client`
   * `"list"` - This is a two dimensional array. Each element in `list[]` contains:
     * index `0` - Contains an identifier used for selecting the site, it can be a number or a string.
     * index `1` - This is the URL of the "site", including the path to where the site application is stored.
-* `test_zipremote.php` - Demonstration code, edit as needed to test your changes.
+* `test_getZipFile.php` **and** `test_putZipFile.php` - Demonstration code, edit as needed to test your changes.
 
 See [Extras](#extras) for additional files and information.
 
@@ -207,7 +207,7 @@ This section will be updated when ever new issues are discovered, but not yet re
 
 # The Future
 
-I will most likely create the inverse of this application, it will upload zip files and unzip them on the server to desired locations.
+I would like to create a "manager" front end that uses ZipRemote. It would aid in maintaining multiple servers and keeping them up to date. It may also be possible to tie in Github to obtain content for uploading.
 
 ---
 <img src="http://webexperiment.info/extcounter/mdcount.php?id=zipremote">
