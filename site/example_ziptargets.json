@@ -1,15 +1,27 @@
 {
     "ziploc": "./ziphere",
     "_comment": [
-        "locations[x][0] - path ID, aka pathid",
-        "locations[x][1] - path to zip targe location",
-        "locations[x][2] - GLOB file pattern, 'null' for recursive zip",
-        "locations[x][3] - name of zip file"
+        "For DOWLOAD - "
+        ,"locations[x][0] - path ID, aka pathid"
+        ,"locations[x][1] - path to zip target location"
+        ,"locations[x][2] - GLOB file pattern, 'null' for recursive zip"
+        ,"locations[x][3] - name of zip file, must never be empty or `null`"
+        ,"For UPLOAD and UNZIP (uztest entries in locations array) - "
+        ,"locations[x][0] - path ID, aka pathid"
+        ,"locations[x][1] - path to UNzip target location"
+        ,"locations[x][2] - optionall can be null"
+        ,"locations[x][3] - must always be `null`!"
     ],
     "locations": [
-        [98, "./testfiles_tozip", "*.{*}", "zip98"],
-        [99, ".", "{*.*}", "zip99"],
-        ["recur", "./testfiles_tozip", null, "recurtest"],
-        [10, "//access-logs", "*.{*}", "zip10"]
-    ],
+         [98, "./testfiles_tozip", "*.{txt,md}", "zip98"]
+        ,[99, ".", "{*.*}", "zip99"]
+        ,["recur", "./testfiles_tozip", null, "recurtest"]
+        ,[Site_D, "//access-logs", "*.{gz,log}", "alogs"]
+
+        ,["uztest1",  "//uztest", null, null]
+        ,["uztest2",  "//uztest", "*.log", null]
+        ,["uztest2b", "//uztest", ["*.log"], null]
+        ,["uztest3",  "//uztest", "*/subtest1/*", null]
+        ,["uztest4",  "//uztest", ["*.log","*.json","*.md"], null]
+    ]
 }
