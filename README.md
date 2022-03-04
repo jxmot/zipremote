@@ -1,8 +1,10 @@
 **THIS IS A WORK IN PROGRESS! Please be patient, we're almost done!**
 
+**NOTE: Looking for individuals to download and tryout the instructions in the README. If there are any difficulties with the instructions please create an issue.**
+
 # Zip Remote
 
-This repository contains a utility that will zip files within a folder, **or** folder contents recursively on a remote web server and then download them to the client.
+This repository contains a utility that will zip files within a folder, **or** folder contents recursively on a remote web server and then download them to the client. The utility also has the ability to upload a zip file and optionally extract all or part of its contents.
 
 - [Zip Remote](#zip-remote)
   * [Use Cases](#use-cases)
@@ -12,11 +14,13 @@ This repository contains a utility that will zip files within a folder, **or** f
     + [Security](#security)
 - [Running The Application](#running-the-application)
   * [Requirements](#requirements)
+    + [Server](#server)
     + [PHP Versions](#php-versions)
     + [Apache](#apache)
     + [Site](#site)
     + [Client](#client)
-      - [Run!](#run-)
+    + [Tools](#tools)
+  * [Run!](#run-)
   * [Preparation](#preparation)
     + [Edit Files](#edit-files)
       - [Site](#site-1)
@@ -24,8 +28,14 @@ This repository contains a utility that will zip files within a folder, **or** f
   * [IMPORTANT](#important)
     + [JSON Key File](#json-key-file)
     + [File Locations](#file-locations)
+- [Design Details](#design-details)
+  * [Overview](#overview)
+    + [Download a Zip File](#download-a-zip-file)
+    + [Upload a Zip File](#upload-a-zip-file)
+    + [Details](#details)
+      - [Client and Site Interaction with JSON Files](#client-and-site-interaction-with-json-files)
 - [Extras](#extras)
-  * [HTML Demo Client](#html-demo-client)
+  * [HTML Demonstration Client](#html-demonstration-client)
 - [Possible Issues](#possible-issues)
 - [Known Issues](#known-issues)
 - [The Future](#the-future)
@@ -36,18 +46,19 @@ This repository contains a utility that will zip files within a folder, **or** f
 
 * **Download server log files**: This is my primary use for this application. I maintain about a dozen servers and I review the logs periodically. I needed *something* to make that task easier and quicker.
 * **Backup websites**: This application can *recursively* zip files from a starting location.
+* **Distribute Content or Files**: This application can help with the upload and unzip of website or server files. 
 
 ### Advantages
 
 Typically I would use an SSH client with SFTP capabilities with a "file explorer" window. But logging in, navigating to the correct folders, downloading the files, and doing that for a dozen sites is tedious and time consuming.
 
-The advantage here is that with a simple PHP script (*see* `client/test_zipremote.php`) the files can be downloaded (*somewhat securely too*) from all the servers in just a couple of minutes or less.
+The advantage here is that with a simple PHP script (*see* `client/test_getZipFile.php`) the files can be downloaded (*somewhat securely too*) from all the servers in just a couple of minutes or less.
 
 ## Features
 
 There are two parts in this application. The primary part is the **Site** side. It is intended to be installed on an internet accessible server running Apache 2 and PHP V7+.
 
-The second part is the **Client** side and the code provided is more of a demonstration of how to use the API.
+The second part is the **Client** side and the code provided is more of a demonstration of how to use ZipRemote.
 
 ### Configurable
 
@@ -59,7 +70,7 @@ The security implementation in this application is not the *best*. However it sh
 
 **First Level** - This is accomplished on the "site" side by checking the visiting IP address against a list of "approved" IP addresses. **NOTE**: This has been disabled in order to make it easier to get everything running. And later you can add IPs to `ipvalid.json`.
 
-**Second Level** - This is accomplished by the use of a "key" and a "path ID". With those two parameters the client identifies itself and selects a predetermined path and zip operation(*files only, or recursive*).
+**Second Level** - This is accomplished by the use of a "key" and a "path ID". With those two parameters the client identifies itself and selects a predetermined path and zip operation. 
 
 **Third Level** - When you create the folder to contain the `site` files do not use the name `zipremote` or `site` to contain the `site` files. Make it obscure by using a randomized name.
 
@@ -103,7 +114,7 @@ My primary development environment is in Windows and this what use:
 
 ## Run!
 
-At a local command line run this from within the `client` folder - `php ./test_zipremote.php`.
+At a local command line run this from within the `client` folder - `php ./test_gettZipFile.php`. However you will need to complete the steps in [Preparation](#preparation).
 
 ## Preparation
 
@@ -112,6 +123,20 @@ At a local command line run this from within the `client` folder - `php ./test_z
 Prior to running there are some files that will require editing. The files and contents are described in the following sections.
 
 #### Site
+
+These files will need to be located on an internet accessible server(*http,https*):
+
+* `.htaccess`
+* `example_apikeys.json` - edit (*see below*) and save as `apikeys.json`
+* `example_ipvalid.json` - edit (*see below*) and save as `ipvalid.json`
+* `example_ziptargets.json` - edit (*see below*) and save as `ziptargets.json`
+* `tzone.json`
+* `areqheaders.php`
+* `configchk.php`
+* `index.php`
+* `ip_isvalid.php`
+* `timezone.php`
+* `ziplib.php`
 
 Path in repository: `/site`
 
@@ -131,13 +156,25 @@ Path in repository: `/site`
   * `"keylist"` - Each element in `keylist[]` contains a unique string. It is compared to an incoming "key" value from the client. Here is an online utility for generating passwords (*work well as api keys*) - <https://passwordsgenerator.net/>
 * `index.php` - There is no required editing before use.
   * `$ipv` - This enables or disables IP validation. By default is disabled. Set it to `true` to enable it after you have IP addresses in `ipvalid.json`.
-* `.htaccess`- There is no required editing before use. This will allow URLs to work without the `.php` extension.
+* `.htaccess`- There is no required editing before use. This file will allow URLs to work without the `.php` extension.
 
 #### Client
 
+These files will need to be *local* and probably running on your PC. This side of the application **should not** be run on an internet accessible server:
+
+* `cfg.json`
+* `example_apikeys.json` - edit (*see below*) and save as `apikeys.json`
+* `example_sites.json` - edit (*see below*) and save as `sites.json`
+* `configchk.php`
+* `getsite.php`
+* `parseheaders.php`
+* `zipremote.php` - contains the `getZipFile()` and `putZipFile()` functions. This is the API used by clients. 
+* `test_getZipFile.php`
+* `test_putZipFile.php`
+
 Path in repository: `/client`
 
-* `gsfcfg.json` - There is no required editing before use. This file contains:
+* `cfg.json` - There is no required editing before use. This file contains:
   * `"ziploc"` - The location where downloaded zip files will be saved.
   * `"dirsep"` - A directory separator character.
   * `"forcedl"` - If `true` the "site" will force a download of the selected zip file.
@@ -147,7 +184,7 @@ Path in repository: `/client`
   * `"list"` - This is a two dimensional array. Each element in `list[]` contains:
     * index `0` - Contains an identifier used for selecting the site, it can be a number or a string.
     * index `1` - This is the URL of the "site", including the path to where the site application is stored.
-* `test_zipremote.php` - Demonstration code, edit as needed to test your changes.
+* `test_getZipFile.php` **and** `test_putZipFile.php` - Demonstration code, edit as needed to test your changes.
 
 See [Extras](#extras) for additional files and information.
 
@@ -155,7 +192,7 @@ See [Extras](#extras) for additional files and information.
 
 ### JSON Key File
 
-The `apikeys.json` file in the `client` and in `site` are the same file. If you edit one the other **must** be identical. Try to use randomized strings, don't make them easy to guess.
+The `apikeys.json` file in the `client` and in `site` are the same file. If you edit one the other **must** be identical. Try to use randomized strings, don't make the keys easy to guess.
 
 ### File Locations
 
@@ -172,19 +209,67 @@ And the `site` files get copied into:
 
 Or the equivalent location on your server.
 
+# Design Details
+
+## Overview
+
+### Download a Zip File
+
+<p align="center">
+  <img src="./mdimg/overview-GET.jpg" style="width:60%"; alt="Overview Diagram" txt="Overview Diagram"/>
+</p>
+
+### Upload a Zip File
+
+<p align="center">
+  <img src="./mdimg/overview-PUT.jpg" style="width:60%"; alt="Overview Diagram" txt="Overview Diagram"/>
+</p>
+
+### Details
+
+#### Client and Site Interaction with JSON Files
+
+<p align="center">
+  <img src="./mdimg/site_client_json.jpg" style="width:80%"; alt="Site and Client with JSON" txt="Detailed Diagram"/>
+</p>
+
+
 # Extras
 
-## HTML Demo Client
+## HTML Demonstration Client
 
-The files `/zipremote/client/demo_gsfapi.html` and `/zipremote/client/gsfapi.php` were created to demonstrate the use of JavaScript to access the ZipRemote API. 
+The demonstration client consists of these files:
 
-The `gsfapi.php` file is called via a `GET` method in `demo_gsfapi.html`, it is where `/zipremote/client/getsitefiles.php`:`getSiteFiles()` is called.
+* `zipremapi.php` - this the ZipRemote API for clients, it communicates with the "site" side.
+* `phpapi.js` - API used by the client, it calls `zipremapi.php`.
+* `demo.js` - functions used by `demo_zipremote.html`, uses `phpapi.js`.
+* `demo_zipremote.html` - just a simple GUI, you can upload or download zip files and see the responses.
+
+The page looks like this - 
+
+<p align="center">
+  <img src="./mdimg/htmldemo_1.jpg" style="width:60%"; alt="HTML Client Exampe 1" txt=""/>
+</p>
+
+Click either, or both buttons and if successful:
+
+<p align="center">
+  <img src="./mdimg/htmldemo_2.jpg" style="width:60%"; alt="HTML Client Exampe 1" txt=""/>
+</p>
 
 **NOTE**: You will need an HTTP server with PHP>=5.6 *on your local network* for `demo_gsfapi.html`. This will help insure that the intended security remains intact. In addition, you will need to enter your internet-facing IP address into the `site/ipvalid.json` file if you have enabled that security feature.
+
+## Folder Test Tree Generator
+
+A bash script is provided in the `bash-random_folder_tree` sub-module within this repository. It is located at `zipremote/bash-random_folder_tree/randtree.sh`. Copy `randtree.sh` into the `/zipremote/site/testfiles_tozip` folder (*the* `testfiles_tozip` *folder should have been copied onto your server*).
+
+Run `randtree.sh` from there and the test tree will be created in `testfiles_tozip/randtree`.
 
 # Possible Issues
 
 * I have **not** tested where folders are symbolically linked. If this causes problems for anyone please create an issue in this repository.
+* It's possible that the zip files will be size limited. I'm not sure what that is but may be affected by the PHP `memory_limit` setting.
+* In addition to the size limit the *maximum run time* should also be considered. Its value is in the PHP `max_execution_time` setting.
 
 # Known Issues
 
@@ -192,7 +277,7 @@ This section will be updated when ever new issues are discovered, but not yet re
 
 # The Future
 
-I will most likely create the inverse of this application, it will upload zip files and unzip them on the server to desired locations.
+I would like to create a "manager" front end that uses ZipRemote. It would aid in maintaining multiple servers and keeping them up to date. It may also be possible to tie in Github to obtain content for uploading.
 
 ---
 <img src="http://webexperiment.info/extcounter/mdcount.php?id=zipremote">

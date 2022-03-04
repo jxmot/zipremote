@@ -1,0 +1,62 @@
+<!--
+    Author: https://github.com/jxmot
+    Repository: https://github.com/jxmot/zipremote
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <style type="text/css">
+        body {width: auto;text-align:center;}
+    </style>
+    <!-- https://stackoverflow.com/questions/550038/is-it-valid-to-replace-http-with-in-a-script-src-http -->
+    <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="./phpapi.js"></script>
+    <script src="./demo.js"></script>
+</head>
+<body>
+    <h2>
+        A demonstration on using HTML/JavaScript/PHP to call the ZipRemote API
+    </h2>
+    <div>
+        <br>
+        <p>
+            Click the button to retrieve a zip file.
+        </p>
+        <button id="button_get" type="button">Get a Zip File!</button> 
+    </div>
+    <div>
+        <p>
+            <h4>The result: </h4>
+            <span id="results_get"></span>
+        </p>
+    </div>
+    <br>
+    <hr>
+    <br>
+    <div>
+        <br>
+        <p>
+            Click the button to upload a zip file.
+        </p>
+        <button id="button_put" type="button">Send a Zip File!</button> 
+    </div>
+    <div>
+        <p>
+            <h4>The result: </h4>
+            <span id="results_put"></span>
+        </p>
+    </div>
+    <script>
+        $('#button_get').click(function() {
+            $('#results_get').html('');
+            getZip();
+        });
+
+        $('#button_put').click(function() {
+            $('#results_put').html('');
+            putZip();
+        });
+    </script>
+</body>
+</html>

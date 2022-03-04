@@ -37,20 +37,18 @@
 */
 define('REMADDR',   ((isset($_SERVER['REMOTE_ADDR']) === true) ? $_SERVER['REMOTE_ADDR']  : 'none'));
 
-// NOTE: Edit `example_ipvalid.json` and save it as `ipvalid.json`.
-$valid = json_decode(file_get_contents('./ipvalid.json'));
-
+/*
+*/
 function ip_isvalid($_ip = null) {
+global $g_validips;
 
-    global $valid;
-
-    $ip = '';
-    $ret = new stdClass();
-    $ret->r = false;
-    $ret->n = '';
+$ip = '';
+$ret = new stdClass();
+$ret->r = false;
+$ret->n = '';
 
     if(($ip = ($_ip === null ? REMADDR : $_ip)) !== 'none') {
-        foreach($valid->list as $vip) {
+        foreach($g_validips->list as $vip) {
             if($ip === $vip[0]) {
                 $ret->r = true;
                 $ret->n = $vip[1];
