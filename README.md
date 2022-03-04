@@ -1,5 +1,7 @@
 **THIS IS A WORK IN PROGRESS! Please be patient, we're almost done!**
 
+**NOTE: Looking for individuals to download and tryout the instructions in the README. If there are any difficulties with the instructions please create an issue.**
+
 # Zip Remote
 
 This repository contains a utility that will zip files within a folder, **or** folder contents recursively on a remote web server and then download them to the client. The utility also has the ability to upload a zip file and optionally extract all or part of its contents.
@@ -12,11 +14,13 @@ This repository contains a utility that will zip files within a folder, **or** f
     + [Security](#security)
 - [Running The Application](#running-the-application)
   * [Requirements](#requirements)
+    + [Server](#server)
     + [PHP Versions](#php-versions)
     + [Apache](#apache)
     + [Site](#site)
     + [Client](#client)
-      - [Run!](#run-)
+    + [Tools](#tools)
+  * [Run!](#run-)
   * [Preparation](#preparation)
     + [Edit Files](#edit-files)
       - [Site](#site-1)
@@ -24,8 +28,14 @@ This repository contains a utility that will zip files within a folder, **or** f
   * [IMPORTANT](#important)
     + [JSON Key File](#json-key-file)
     + [File Locations](#file-locations)
+- [Design Details](#design-details)
+  * [Overview](#overview)
+    + [Download a Zip File](#download-a-zip-file)
+    + [Upload a Zip File](#upload-a-zip-file)
+    + [Details](#details)
+      - [Client and Site Interaction with JSON Files](#client-and-site-interaction-with-json-files)
 - [Extras](#extras)
-  * [HTML Demo Client](#html-demo-client)
+  * [HTML Demonstration Client](#html-demonstration-client)
 - [Possible Issues](#possible-issues)
 - [Known Issues](#known-issues)
 - [The Future](#the-future)
