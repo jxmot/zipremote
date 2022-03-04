@@ -7,12 +7,14 @@
 #
 #   ./git-update-submodules.sh /full/path/to/repo/with/submodules/inside master
 #
-# NOTE: If on Windows you can run this script from within a gitbash command window.
+# NOTE: 
+#       If on Windows you can run this script from within a gitbash command window.
+#       BUT! And this is a big one... avoid repo paths with spaces in them!
 #
 APP_PATH=$1
 shift
 
-if [ -z $APP_PATH ]; then
+if [ -z "$APP_PATH" ]; then
   echo "Missing 1st argument: should be full path to folder of a git repo";
   exit 1;
 fi
@@ -26,7 +28,7 @@ if [ -z $BRANCH ]; then
 fi
 
 echo "Working in: $APP_PATH"
-cd $APP_PATH
+cd "$APP_PATH"
 
 git checkout $BRANCH && git pull --ff origin $BRANCH
 

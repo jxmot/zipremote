@@ -1,0 +1,3 @@
+[submodule "bash-random_folder_tree"]
+	path = bash-random_folder_tree
+	url = https://github.com/jxmot/bash-random_folder_tree
