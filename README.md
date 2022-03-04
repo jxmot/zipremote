@@ -259,6 +259,12 @@ Click either, or both buttons and if successful:
 
 **NOTE**: You will need an HTTP server with PHP>=5.6 *on your local network* for `demo_gsfapi.html`. This will help insure that the intended security remains intact. In addition, you will need to enter your internet-facing IP address into the `site/ipvalid.json` file if you have enabled that security feature.
 
+## Folder Test Tree Generator
+
+A bash script is provided in the `bash-random_folder_tree` sub-module within this repository. It is located at `zipremote/bash-random_folder_tree/randtree.sh`. Copy `randtree.sh` into the `/zipremote/site/testfiles_tozip` folder (*the* `testfiles_tozip` *folder should have been copied onto your server*).
+
+Run `randtree.sh` from there and the test tree will be created in `testfiles_tozip/randtree`.
+
 # Possible Issues
 
 * I have **not** tested where folders are symbolically linked. If this causes problems for anyone please create an issue in this repository.
