@@ -15,16 +15,20 @@
     <script src="./demo.js"></script>
 </head>
 <body>
+    <h2>
+        A demonstration on using HTML/JavaScript/PHP to call the ZipRemote API
+    </h2>
     <div>
         <br>
         <p>
-            A demonstration of using HTML/javascript to call the 
-            API and retrieve a zip file.
+            Click the button to retrieve a zip file.
         </p>
         <button id="button_get" type="button">Get a Zip File!</button> 
     </div>
     <div>
-        <p id="results_get">
+        <p>
+            <h4>The result: </h4>
+            <span id="results_get"></span>
         </p>
     </div>
     <br>
@@ -33,13 +37,14 @@
     <div>
         <br>
         <p>
-            A demonstration of using HTML/javascript to call the 
-            API and upload a zip file.
+            Click the button to upload a zip file.
         </p>
         <button id="button_put" type="button">Send a Zip File!</button> 
     </div>
     <div>
-        <p id="results_put">
+        <p>
+            <h4>The result: </h4>
+            <span id="results_put"></span>
         </p>
     </div>
     <script>

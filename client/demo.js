@@ -13,7 +13,7 @@ function standby(action) {
 
 // show the response
 function itsdone(action, resp) {
-    $(`#results_${action}`).html(`The reponse was: ${JSON.stringify(resp)}`);
+    $(`#results_${action}`).html(`${JSON.stringify(resp, null, 2)}`);
 };
 
 function getdone(resp) {
@@ -23,10 +23,11 @@ function getdone(resp) {
 function getZip() {
         // Edit as needed...
         var sid = 'bigsite';
-        var key = 'DeL9ctT428Y2RSuC';
+        var key = 'key_goes_here';
         var pid = 'plogs';
-        var qry = `?siteid=${sid}&key=${key}&pathid=${pid}`;
 
+        // do not edit
+        var qry = `?siteid=${sid}&key=${key}&pathid=${pid}`;
         phpapi('GET', 'zipremapi', qry, getdone);
         standby('get');
 };
@@ -38,11 +39,12 @@ function putdone(resp) {
 function putZip() {
         // Edit as needed...
         var sid = 'bigsite';
-        var key = 'DeL9ctT428Y2RSuC';
+        var key = 'key_goes_here';
         var pid = 'uztest2';
         var zip = 'recursmall_sub.zip';
-        var qry = `?siteid=${sid}&key=${key}&pathid=${pid}&zipname=${zip}`;
 
+        // do not edit
+        var qry = `?siteid=${sid}&key=${key}&pathid=${pid}&zipname=${zip}`;
         phpapi('PUT', 'zipremapi', qry, putdone);
         standby('put');
 };
