@@ -11,10 +11,10 @@
 #       If on Windows you can run this script from within a gitbash command window.
 #       BUT! And this is a big one... avoid repo paths with spaces in them!
 #
-APP_PATH=$1
+REPO_PATH=$1
 shift
 
-if [ -z "$APP_PATH" ]; then
+if [ -z "$REPO_PATH" ]; then
   echo "Missing 1st argument: should be full path to folder of a git repo";
   exit 1;
 fi
@@ -27,8 +27,8 @@ if [ -z $BRANCH ]; then
   exit 1;
 fi
 
-echo "Working in: $APP_PATH"
-cd "$APP_PATH"
+echo "Working in: $REPO_PATH"
+cd "$REPO_PATH"
 
 git checkout $BRANCH && git pull --ff origin $BRANCH
 
