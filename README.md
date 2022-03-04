@@ -104,7 +104,7 @@ My primary development environment is in Windows and this what use:
 
 ## Run!
 
-At a local command line run this from within the `client` folder - `php ./test_gettZipFile.php`.
+At a local command line run this from within the `client` folder - `php ./test_gettZipFile.php`. However you will need to complete the steps in [Preparation](#preparation).
 
 ## Preparation
 
@@ -113,6 +113,20 @@ At a local command line run this from within the `client` folder - `php ./test_g
 Prior to running there are some files that will require editing. The files and contents are described in the following sections.
 
 #### Site
+
+These files will need to be located on an internet accessible server(*http,https*):
+
+* `.htaccess`
+* `example_apikeys.json` - edit (*see below*) and save as `apikeys.json`
+* `example_ipvalid.json` - edit (*see below*) and save as `ipvalid.json`
+* `example_ziptargets.json` - edit (*see below*) and save as `ziptargets.json`
+* `tzone.json`
+* `areqheaders.php`
+* `configchk.php`
+* `index.php`
+* `ip_isvalid.php`
+* `timezone.php`
+* `ziplib.php`
 
 Path in repository: `/site`
 
@@ -132,13 +146,25 @@ Path in repository: `/site`
   * `"keylist"` - Each element in `keylist[]` contains a unique string. It is compared to an incoming "key" value from the client. Here is an online utility for generating passwords (*work well as api keys*) - <https://passwordsgenerator.net/>
 * `index.php` - There is no required editing before use.
   * `$ipv` - This enables or disables IP validation. By default is disabled. Set it to `true` to enable it after you have IP addresses in `ipvalid.json`.
-* `.htaccess`- There is no required editing before use. This will allow URLs to work without the `.php` extension.
+* `.htaccess`- There is no required editing before use. This file will allow URLs to work without the `.php` extension.
 
 #### Client
 
+These files will need to be *local* and probably running on your PC. This side of the application **should not** be run on an internet accessible server:
+
+* `cfg.json`
+* `example_apikeys.json` - edit (*see below*) and save as `apikeys.json`
+* `example_sites.json` - edit (*see below*) and save as `sites.json`
+* `configchk.php`
+* `getsite.php`
+* `parseheaders.php`
+* `zipremote.php`
+* `test_getZipFile.php`
+* `test_putZipFile.php`
+
 Path in repository: `/client`
 
-* `gsfcfg.json` - There is no required editing before use. This file contains:
+* `cfg.json` - There is no required editing before use. This file contains:
   * `"ziploc"` - The location where downloaded zip files will be saved.
   * `"dirsep"` - A directory separator character.
   * `"forcedl"` - If `true` the "site" will force a download of the selected zip file.
@@ -156,7 +182,7 @@ See [Extras](#extras) for additional files and information.
 
 ### JSON Key File
 
-The `apikeys.json` file in the `client` and in `site` are the same file. If you edit one the other **must** be identical. Try to use randomized strings, don't make them easy to guess.
+The `apikeys.json` file in the `client` and in `site` are the same file. If you edit one the other **must** be identical. Try to use randomized strings, don't make the keys easy to guess.
 
 ### File Locations
 
@@ -200,17 +226,30 @@ Or the equivalent location on your server.
 
 # Extras
 
-## HTML Demo Client
+## HTML Demonstration Client
 
-The files `/zipremote/client/demo_gsfapi.html` and `/zipremote/client/gsfapi.php` were created to demonstrate the use of JavaScript to access the ZipRemote API. 
+The demonstration client consists of these files:
+
+* `zipremapi.php`
+* `phpapi.js`
+* `demo.js`
+* `demo_zipremote.html`
+
+
+The files `/zipremote/client/demo_zipremote.html` and `/zipremote/client/gsfapi.php` were created to demonstrate the use of JavaScript to access the ZipRemote API. 
 
 The `gsfapi.php` file is called via a `GET` method in `demo_gsfapi.html`, it is where `/zipremote/client/getsitefiles.php`:`getSiteFiles()` is called.
+
+
+
 
 **NOTE**: You will need an HTTP server with PHP>=5.6 *on your local network* for `demo_gsfapi.html`. This will help insure that the intended security remains intact. In addition, you will need to enter your internet-facing IP address into the `site/ipvalid.json` file if you have enabled that security feature.
 
 # Possible Issues
 
 * I have **not** tested where folders are symbolically linked. If this causes problems for anyone please create an issue in this repository.
+* It's possible that the zip files will be size limited. I'm not sure what that is but may be affected by the PHP `memory_limit` setting.
+* In addition to the size limit the *maximum run time* should also be considered. Its value is in the PHP `max_execution_time` setting.
 
 # Known Issues
 
