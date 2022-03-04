@@ -20,6 +20,15 @@ require_once './getsite.php';
         * Create a request header
         * Send the request
         * Receive a zip file or error code and handle it
+
+    Returns:
+        Failure:
+            * null = (one of the following has occurred)
+                * the $siteid or $key args are invalid
+                * the downloaded zip file could not be saved
+            * numeric return code (not 200) = an HTTP error has occurred
+        Success:
+            * a string containing the path+zipfile name that was saved
 */
 function getZipFile($siteid, $key, $pathid) {
 $siteurl = null;
@@ -72,6 +81,13 @@ $ret = null;
         * Create a request header
         * Send the request
         * Upload a zip file
+
+    Returns:
+        Failure:
+            * null = the $siteid or $key args are invalid
+            * numeric return code (not 200) = an HTTP error has occurred
+        Success:
+            * JSON formatted text string = the operation succeeded
 */
 function putZipFile($siteid, $key, $pathid, $zipname, $pattern = null, $extract = 'yes') {
 $siteurl = null;
