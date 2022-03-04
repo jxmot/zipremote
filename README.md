@@ -1,3 +1,4 @@
+<h1>DRAFT</h1>
 **THIS IS A WORK IN PROGRESS! Please be patient, we're almost done!**
 
 **NOTE: Looking for individuals to download and tryout the instructions in the README. If there are any difficulties with the instructions please create an issue.**
@@ -121,6 +122,8 @@ At a local command line run this from within the `client` folder - `php ./test_g
 ### Edit Files
 
 Prior to running there are some files that will require editing. The files and contents are described in the following sections.
+
+While editing and creating run-time versions of the JSON files feel free to remove the `"comments"` arrays.
 
 #### Site
 
@@ -267,8 +270,8 @@ Run `randtree.sh` from there and the test tree will be created in `testfiles_toz
 
 # Possible Issues
 
-* I have **not** tested where folders are symbolically linked. If this causes problems for anyone please create an issue in this repository.
-* It's possible that the zip files will be size limited. I'm not sure what that is but may be affected by the PHP `memory_limit` setting.
+* I have **not** tested where folders or files are symbolically linked. If this causes problems for anyone please create an issue in this repository.
+* It's possible that the zip files will be size limited. I'm not sure what that limit is but may be affected by the PHP `memory_limit` setting.
 * In addition to the size limit the *maximum run time* should also be considered. Its value is in the PHP `max_execution_time` setting.
 
 # Known Issues
