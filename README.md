@@ -158,7 +158,7 @@ These files will need to be *local* and probably running on your PC. This side o
 * `configchk.php`
 * `getsite.php`
 * `parseheaders.php`
-* `zipremote.php`
+* `zipremote.php` - contains the `getZipFile()` and `putZipFile()` functions. This is the API used by clients. 
 * `test_getZipFile.php`
 * `test_putZipFile.php`
 
@@ -230,18 +230,22 @@ Or the equivalent location on your server.
 
 The demonstration client consists of these files:
 
-* `zipremapi.php`
-* `phpapi.js`
-* `demo.js`
-* `demo_zipremote.html`
+* `zipremapi.php` - this the ZipRemote API for clients, it communicates with the "site" side.
+* `phpapi.js` - API used by the client, it calls `zipremapi.php`.
+* `demo.js` - functions used by `demo_zipremote.html`, uses `phpapi.js`.
+* `demo_zipremote.html` - just a simple GUI, you can upload or download zip files and see the responses.
 
+The page looks like this - 
 
-The files `/zipremote/client/demo_zipremote.html` and `/zipremote/client/gsfapi.php` were created to demonstrate the use of JavaScript to access the ZipRemote API. 
+<p align="center">
+  <img src="./mdimg/htmldemo_1.jpg" style="width:60%"; alt="HTML Client Exampe 1" txt=""/>
+</p>
 
-The `gsfapi.php` file is called via a `GET` method in `demo_gsfapi.html`, it is where `/zipremote/client/getsitefiles.php`:`getSiteFiles()` is called.
+Click either, or both buttons and if successful:
 
-
-
+<p align="center">
+  <img src="./mdimg/htmldemo_2.jpg" style="width:60%"; alt="HTML Client Exampe 1" txt=""/>
+</p>
 
 **NOTE**: You will need an HTTP server with PHP>=5.6 *on your local network* for `demo_gsfapi.html`. This will help insure that the intended security remains intact. In addition, you will need to enter your internet-facing IP address into the `site/ipvalid.json` file if you have enabled that security feature.
 
