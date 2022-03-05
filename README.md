@@ -236,6 +236,42 @@ Or the equivalent location on your server.
   <img src="./mdimg/site_client_json.jpg" style="width:80%"; alt="Site and Client with JSON" txt="Detailed Diagram"/>
 </p>
 
+# API
+
+## Site API
+
+### GET
+
+`GET http{s)://yourserver/path/to/zipremote`
+
+**Header**:
+```
+key:your_key_goes_here
+pathid:bigsite
+forcedl:yes
+rmvafter:yes
+```
+
+**Responses**:
+
+| **HTTP Code** |      **Code Description**      | **Payload** |                                **Conditions**                               |
+|:-------------:|:------------------------------:|:-----------:|:---------------------------------------------------------------------------:|
+| 200           | OK                             | JSON        | `forcedl` and `rmvafter` are `"no"`                                         |
+| 200           | Great!                         | A Zip File  | `forcedl` is `"yes"`                                                        |
+| 400           | Awful Request                  | JSON        | Invalid parameter(s).                                                       |
+| 401           | Shame on you!                  | JSON        | Invalid `pathid` or`key` values                                             |
+| 403           | Not Allowed                    | none        | An invalid method was used                                                  |
+| 404           | Something important is missing | JSON        | The zip file to download does not  exist.                                   |
+| 424           | Invalid path ID, [path ID]     | JSON        | The path ID is OK, but the target  it selected is not a download path.      |
+| 500           | Something is not working       | JSON        | Zip target settings in the JSON file are bad. Or a zip function has failed. |
+|               |                                |             |                                                                             |
+### PUT
+
+## Demo Client API
+
+### GET
+
+### PUT
 
 # Extras
 
