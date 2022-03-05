@@ -248,9 +248,16 @@ Or the equivalent location on your server.
 ```
 key:your_key_goes_here
 pathid:bigsite
+```
+
+These will over-ride the default settings, `"yes"` is the default for both:
+
+```
 forcedl:yes
 rmvafter:yes
 ```
+
+
 
 **Responses**:
 
@@ -266,6 +273,30 @@ rmvafter:yes
 | 500           | Something is not working       | JSON        | Zip target settings in the JSON file are bad. Or a zip function has failed. |
 |               |                                |             |                                                                             |
 ### PUT
+
+`PUT http{s)://yourserver/path/to/zipremote`
+
+**Header**:
+```
+key: your_key_goes_here
+pathid: uztest3
+zipname: upload_zipfile.zip
+```
+
+The following are *optional*:
+
+```
+extract: yes
+pattern: ["*.md"]
+```
+
+If `extract` is `"no"` or not present the file will be uploaded but no files will be extracted from it.
+
+The `pattern` field is optional. If it is empty or not present the file pattern used in extraction is found in `ziptargets.json` and selected with `pathid`.
+
+
+**Responses**:
+
 
 ## Demo Client API
 
