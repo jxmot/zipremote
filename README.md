@@ -276,11 +276,13 @@ rmvafter:yes
 | 200           | Great!                         | A Zip File  | `forcedl` is `"yes"`                                                        |
 | 400           | Awful Request                  | JSON        | Invalid parameter(s).                                                       |
 | 401           | Shame on you!                  | JSON        | Invalid `pathid` or `key` values                                            |
-| 403           | Not Allowed                    | none        | An invalid method was used                                                  |
+| 403           | Not Allowed                    | none        | The visiting IP address is invalid                                          |
+| 405           | Method Not Allowed             | none        | An invalid method was used                                                  |
 | 404           | Something important is missing | JSON        | The zip file to download does not  exist.                                   |
-| 424           | Invalid path ID, [path ID]     | JSON        | The path ID is OK, but the target it selected is not a download path.      |
+| 424           | Invalid path ID, [path ID]     | JSON        | The path ID is OK, but the target it selected is not a download path.       |
 | 500           | Something is not working       | JSON        | Zip target settings in the JSON file are bad. Or a zip function has failed. |
 |               |                                |             |                                                                             |
+
 ### PUT
 
 `PUT http{s)://yourserver/path/to/zipremote`
@@ -336,8 +338,9 @@ You can use the *same* patterns in `ziptargets.json` for use in any *upload* pat
 |:-------------:|:--------------------------:|:-----------:|:---------------------------------------------------------------------------:|
 | 200           | Great!                     | JSON        | The file was uploaded, and optionally extracted                             |
 | 400           | Awful Request              | JSON        | Invalid parameter(s).                                                       |
-| 401           | Shame on you!              | JSON        | Invalid `pathid` or `key` values were  passed in the header.                |
-| 403           | Not Allowed                | none        | An invalid method was used, it was not GET or PUT                           |
+| 401           | Shame on you!              | JSON        | Invalid `pathid` or`key` values were  passed in the header.                 |
+| 403           | Not Allowed                | none        | The visiting IP address is invalid                                          |
+| 405           | Method Not Allowed         | none        | An invalid method was used, it was not GET or PUT                           |
 | 424           | Invalid path ID, [path ID] | JSON        | The path ID is OK, but the target  it selected is not an upload path.       |
 | 500           | Something is not working   | JSON        | Zip target settings in the JSON file are bad. Or a zip function has failed. |
 
