@@ -264,7 +264,7 @@ if(isset($apikey)) {
                             }
                         } else { // method is not allowed, usually handled in the closest .htaccess file
                             $httpresp = '{"msg": "invalid method ' . $_SERVER['REQUEST_METHOD'] . '"}';
-                            header('HTTP/1.0 405 Not Allowed - '.$_SERVER['REQUEST_METHOD']);
+                            header('HTTP/1.0 405 Method Not Allowed - '.$_SERVER['REQUEST_METHOD']);
                         }
                     }
                 } else {// if($found === true)
