@@ -201,13 +201,13 @@ if(isset($apikey)) {
                                 header('HTTP/1.0 500 Something is not working');
                             }
                         } else {
-                            $httpresp = '{"msg": "Invalid path ID, '.$pathid.' is an upload path"}';
+                            $httpresp = '{"msg": "Invalid path ID, '.$pathid.' is not a download path"}';
                             header('HTTP/1.0 424 Invalid path ID - '.$pathid);
                         }
                     } else { // if($_SERVER['REQUEST_METHOD'] === 'GET')
                         if($_SERVER['REQUEST_METHOD'] === 'PUT') {
                             if(isset($loc[_ZIPNAME])) {
-                                $httpresp = '{"msg": "Invalid path ID, '.$pathid.' is a download path"}';
+                                $httpresp = '{"msg": "Invalid path ID, '.$pathid.' is not an upload path"}';
                                 header('HTTP/1.0 424 Invalid path ID - '.$pathid);
                             } else {
                                 $zipfile = $g_ziptarg->ziploc . '/';
