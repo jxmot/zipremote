@@ -275,10 +275,10 @@ rmvafter:yes
 | 200           | OK                             | JSON        | `forcedl` and `rmvafter` are `"no"`                                         |
 | 200           | Great!                         | A Zip File  | `forcedl` is `"yes"`                                                        |
 | 400           | Awful Request                  | JSON        | Invalid parameter(s).                                                       |
-| 401           | Shame on you!                  | JSON        | Invalid `pathid` or`key` values                                             |
+| 401           | Shame on you!                  | JSON        | Invalid `pathid` or `key` values                                            |
 | 403           | Not Allowed                    | none        | An invalid method was used                                                  |
 | 404           | Something important is missing | JSON        | The zip file to download does not  exist.                                   |
-| 424           | Invalid path ID, [path ID]     | JSON        | The path ID is OK, but the target  it selected is not a download path.      |
+| 424           | Invalid path ID, [path ID]     | JSON        | The path ID is OK, but the target it selected is not a download path.      |
 | 500           | Something is not working       | JSON        | Zip target settings in the JSON file are bad. Or a zip function has failed. |
 |               |                                |             |                                                                             |
 ### PUT
@@ -308,10 +308,7 @@ pathid: uztest3
 zipname: upload_zipfile.zip
 ```
 
-
-
 The following are *optional*:
-
 ```
 extract: yes
 pattern: (see below for details)
@@ -321,11 +318,11 @@ If `extract` is `"no"` or not present the file will be uploaded but no files wil
 
 The `pattern` field is optional. If it is empty or not present the file pattern used in extraction is found in `ziptargets.json` and selected with `pathid`. You can use *shell wild card* patterns. And to contain *multiple* patterns JSON is acceptable. Here are some examples:
 
-|          **Pattern**          |                **Description**                |
-|:-----------------------------:|:---------------------------------------------:|
-| *.log                         | A single shell wild card pattern              |
-| [ "*.log", "*.json", "*.md" ] | A JSON array with multiple patterns           |
-| *.tmp, *.json, *.htm?         | A comma delimited string of multiple patterns |
+|          **Pattern**         |                **Description**                |
+|:----------------------------:|:---------------------------------------------:|
+| `*.log`                      | A single shell wild card pattern              |
+| `["*.log","*.json","*.md" ]` | A JSON array with multiple patterns           |
+| `*.tmp,*.json,*.htm?`        | A comma delimited string of multiple patterns |
 
 
 A good shell wild card tutorial can be found at [linuxhint - Bash Programming, Bash Wildcard](<https://linuxhint.com/bash_wildcard_tutorial/>). And there are some good examples at [TecMint - 10 Practical Examples Using Wildcards to Match Filenames in Linux(2017)](https://www.tecmint.com/use-wildcards-to-match-filenames-in-linux/).
@@ -335,6 +332,14 @@ You can use the *same* patterns in `ziptargets.json` for use in any *upload* pat
 
 **Responses**:
 
+| **HTTP Code** |    **Code Description**    | **Payload** |                                **Conditions**                               |
+|:-------------:|:--------------------------:|:-----------:|:---------------------------------------------------------------------------:|
+| 200           | Great!                     | JSON        | The file was uploaded, and optionally extracted                             |
+| 400           | Awful Request              | JSON        | Invalid parameter(s).                                                       |
+| 401           | Shame on you!              | JSON        | Invalid `pathid` or `key` values were  passed in the header.                |
+| 403           | Not Allowed                | none        | An invalid method was used, it was not GET or PUT                           |
+| 424           | Invalid path ID, [path ID] | JSON        | The path ID is OK, but the target  it selected is not an upload path.       |
+| 500           | Something is not working   | JSON        | Zip target settings in the JSON file are bad. Or a zip function has failed. |
 
 ## Demo Client API
 
