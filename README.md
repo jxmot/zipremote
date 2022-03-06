@@ -245,6 +245,15 @@ Or the equivalent location on your server.
 `GET http{s)://yourserver/path/to/zipremote`
 
 **Header**:
+
+```
+Accept: */*
+Accept-Encoding: gzip, deflate, br
+User-Agent: put something here
+Cache-Control: no-cache
+```
+
+
 ```
 key:your_key_goes_here
 pathid:bigsite
@@ -276,24 +285,53 @@ rmvafter:yes
 
 `PUT http{s)://yourserver/path/to/zipremote`
 
+```
+content -> zip file data
+```
+
 **Header**:
+
+```
+Accept: */*
+Accept-Encoding: gzip, deflate, br
+User-Agent: put something here
+Cache-Control: no-cache
+Content-Type: application/zip
+Content-Length: (length of zip file data)
+Connection: keep-alive
+```
+
+
 ```
 key: your_key_goes_here
 pathid: uztest3
 zipname: upload_zipfile.zip
 ```
 
+
+
 The following are *optional*:
 
 ```
 extract: yes
-pattern: ["*.md"]
+pattern: (see below for details)
 ```
 
 If `extract` is `"no"` or not present the file will be uploaded but no files will be extracted from it.
 
-The `pattern` field is optional. If it is empty or not present the file pattern used in extraction is found in `ziptargets.json` and selected with `pathid`.
+The `pattern` field is optional. If it is empty or not present the file pattern used in extraction is found in `ziptargets.json` and selected with `pathid`. You can use *shell wild card* patterns. And to contain *multiple* patterns JSON is acceptable. Here are some examples:
 
+|          **Pattern**          |                **Description**                |
+|:-----------------------------:|:---------------------------------------------:|
+| *.log                         | All files with a `log` extension              |
+| [ "*.log", "*.json", "*.md" ] | A JSON array with multiple patterns           |
+| *.tmp, *.json, *.htm?         | A comma delimited string of multiple patterns |
+
+
+A good shell wild card tutorial can be found at [linuxhint - Bash Programming, Bash Wildcard](<https://linuxhint.com/bash_wildcard_tutorial/>). And there are some good examples at [TecMint - 10 Practical Examples Using Wildcards to Match Filenames in Linux(2017)](https://www.tecmint.com/use-wildcards-to-match-filenames-in-linux/).
+
+**Pattern Usage Note:**
+You can use the *same* patterns in `ziptargets.json` for use in any *upload* path. However, setting a pattern in the HTTP header will override `ziptargets.json`.
 
 **Responses**:
 
