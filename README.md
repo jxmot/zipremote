@@ -323,7 +323,7 @@ The `pattern` field is optional. If it is empty or not present the file pattern 
 
 |          **Pattern**          |                **Description**                |
 |:-----------------------------:|:---------------------------------------------:|
-| *.log                         | All files with a `log` extension              |
+| *.log                         | A single shell wild card pattern              |
 | [ "*.log", "*.json", "*.md" ] | A JSON array with multiple patterns           |
 | *.tmp, *.json, *.htm?         | A comma delimited string of multiple patterns |
 
