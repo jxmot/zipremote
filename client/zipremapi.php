@@ -5,6 +5,8 @@
 
     It sends this: 
         GET zipremapi.php?siteid=bigsite&key=key_goes_here&pathid=recur
+            --OR--
+        PUT zipremapi.php?siteid=bigsite&key=key_goes_here&pathid=recur&zipname=uptest.zip
 
     Responds with:
         200 - download successful
