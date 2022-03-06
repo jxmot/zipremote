@@ -43,7 +43,7 @@ $ret = null;
     $opts = array(
         'http' => array(
             'header' => "Accept: */*\r\n" .
-            "User-Agent: getSiteFiles\r\n" .
+            "User-Agent: getZipFile\r\n" .
             "Cache-Control: no-cache\r\n" .
             "key: " . $key . "\r\n" .
             "pathid: " . $pathid . "\r\n" .
@@ -105,7 +105,7 @@ $ret = null;
             'method' => 'PUT',
             'content' => $data,
             'header' => "Accept: */*\r\n" .
-            "User-Agent: putSiteFiles\r\n" .
+            "User-Agent: putZipFile\r\n" .
             "Cache-Control: no-cache\r\n" .
             "Content-Type: application/zip\r\n" .
             "Content-Length: " .filesize($g_cfg->ziploc . $g_cfg->dirsep . $zipname). "\r\n".
