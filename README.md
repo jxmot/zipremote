@@ -1,5 +1,5 @@
 <h1>DRAFT</h1>
-**THIS IS A WORK IN PROGRESS! Please be patient, we're almost done!**
+**THIS IS A WORK IN PROGRESS! Please be patient, I'm almost done!**
 
 **NOTE: Looking for individuals to download and tryout the instructions in the README. If there are any difficulties with the instructions please create an issue.**
 
@@ -35,8 +35,13 @@ This repository contains a utility that will zip files within a folder, **or** f
     + [Upload a Zip File](#upload-a-zip-file)
     + [Details](#details)
       - [Client and Site Interaction with JSON Files](#client-and-site-interaction-with-json-files)
+- [API](#api)
+  * [Site API](#site-api)
+    + [GET](#get)
+    + [PUT](#put)
 - [Extras](#extras)
   * [HTML Demonstration Client](#html-demonstration-client)
+  * [Folder Test Tree Generator](#folder-test-tree-generator)
 - [Possible Issues](#possible-issues)
 - [Known Issues](#known-issues)
 - [The Future](#the-future)
@@ -207,7 +212,7 @@ This site:
 Change to:
 `["bigsite", "https://bigsite_server/F7Mh3MRhXEUA"]`
 
-And the `site` files get copied into:
+And everything in the `site` folder gets copied into:
 `/home/$USER/pubic_html/F7Mh3MRhXEUA`
 
 Or the equivalent location on your server.
@@ -246,6 +251,8 @@ Or the equivalent location on your server.
 
 **Header**:
 
+These header fields are required, and are the same for every `GET` request:
+
 ```
 Accept: */*
 Accept-Encoding: gzip, deflate, br
@@ -253,6 +260,7 @@ User-Agent: put something here
 Cache-Control: no-cache
 ```
 
+These fields are also required, and can be different for every `GET` request:
 
 ```
 key:your_key_goes_here
@@ -265,8 +273,6 @@ These will over-ride the default settings, `"yes"` is the default for both:
 forcedl:yes
 rmvafter:yes
 ```
-
-
 
 **Responses**:
 
@@ -293,6 +299,8 @@ content -> zip file data
 
 **Header**:
 
+These header fields are required, and are the same for every `PUT` request:
+
 ```
 Accept: */*
 Accept-Encoding: gzip, deflate, br
@@ -303,6 +311,7 @@ Content-Length: (length of zip file data)
 Connection: keep-alive
 ```
 
+These fields are also required, and can be different for every `PUT` request:
 
 ```
 key: your_key_goes_here
@@ -311,6 +320,7 @@ zipname: upload_zipfile.zip
 ```
 
 The following are *optional*:
+
 ```
 extract: yes
 pattern: (see below for details)
@@ -344,19 +354,14 @@ You can use the *same* patterns in `ziptargets.json` for use in any *upload* pat
 | 424           | Invalid path ID, [path ID] | JSON        | The path ID is OK, but the target  it selected is not an upload path.       |
 | 500           | Something is not working   | JSON        | Zip target settings in the JSON file are bad. Or a zip function has failed. |
 
-## Demo Client API
-
-### GET
-
-### PUT
-
 # Extras
 
 ## HTML Demonstration Client
 
 The demonstration client consists of these files:
 
-* `zipremapi.php` - this the ZipRemote API for clients, it communicates with the "site" side.
+* `zipremote.php` - Called from `zipremapi.php`, this script contains `getZipFile()` and `putZipFile()`. Those functions access the [Site API](#site-api).
+* `zipremapi.php` - this the ZipRemote API for clients, it functions in `zipremote.php`.
 * `phpapi.js` - API used by the client, it calls `zipremapi.php`.
 * `demo.js` - functions used by `demo_zipremote.html`, uses `phpapi.js`.
 * `demo_zipremote.html` - just a simple GUI, you can upload or download zip files and see the responses.
@@ -373,7 +378,7 @@ Click either, or both buttons and if successful:
   <img src="./mdimg/htmldemo_2.jpg" style="width:60%"; alt="HTML Client Exampe 1" txt=""/>
 </p>
 
-**NOTE**: You will need an HTTP server with PHP>=5.6 *on your local network* for `demo_gsfapi.html`. This will help insure that the intended security remains intact. In addition, you will need to enter your internet-facing IP address into the `site/ipvalid.json` file if you have enabled that security feature.
+**NOTE**: You will need an HTTP server with PHP>=5.6 *on your local network* for `demo_zipremote.html`. This will help insure that the intended security remains intact. In addition, you will need to enter your internet-facing IP address into the `site/ipvalid.json` file if you have enabled that security feature.
 
 ## Folder Test Tree Generator
 
