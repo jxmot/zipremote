@@ -83,27 +83,6 @@ if(isset($reqheader['PATHID'])) {
         }
     }
 }
-// the following parameters are either defaulted (see above) or 
-// set in the request header. they are not URL parameters.
-//      force downloads to client?
-if(isset($reqheader['FORCEDL'])) {
-    $forcedl = (($reqheader['FORCEDL'] === 'yes') ? true : false);
-}
-//      remove the zipfile after all is done?
-if(isset($reqheader['RMVAFTER'])) {
-    $rmvafter = (($reqheader['RMVAFTER'] === 'yes') ? true : false);
-}
-// check validity...
-if(($forcedl === false) && ($rmvafter === true) && ($_SERVER['REQUEST_METHOD'] === 'GET')) {
-    // this is invalid, if it's not downloaded then why remove it?
-    $httpresp = '{"msg": "invalid forced-download & remove-after settings"}';
-    header('HTTP/1.0 400 Awful Request');
-    header('Content-Type: application/json; charset=utf-8');
-    header('Content-Encoding: text');
-    header('Content-Length: ' . strlen($httpresp));
-    echo $httpresp;
-    exit;
-}
 
 $ziptarg = null;
 $zippatt = null;
@@ -147,62 +126,79 @@ if(isset($apikey)) {
                 if($found === true) {
                     // down or up? zip or unzip?
                     if($_SERVER['REQUEST_METHOD'] === 'GET') {
-                        if(isset($loc[_ZIPNAME])) {
-                            $zipfile = $g_ziptarg->ziploc . '/' . $loc[_ZIPNAME] . '.zip';
-                            header('zipname: ' . $loc[_ZIPNAME] . '.zip');
-                            $dbg_header('zipfile: ' . $zipfile);
-                            if(isset($loc[_FILEPATT])) {
-                                $zippatt = $ziptarg . '/' . $loc[_FILEPATT];
-                                $dbg_header('zippatt: ' . $zippatt);
-                                $zipret = zipFiles($zippatt, $zipfile, $ziptarg);
-                            } else {
-                                $zippatt = $ziptarg;
-                                $dbg_header('recur: ' . $zippatt);
-                                $zipret = zipFilesRecursive($zippatt, $zipfile, $ziptarg);
-                            }
-                            if($zipret === true) {
-                                if($forcedl === false) {
-                                    $httpresp = '{"found": "' . $found . '","ziptarg": "' . $ziptarg . '","zippatt": "' . $zippatt . '","zipfile": "' . $zipfile . '","pathid": "' . $pathid . '"}';
-                                    header('HTTP/1.0 200 OK');
-                                    header('Content-Type: application/json; charset=utf-8');
-                                    header('Content-Encoding: text');
-                                    header('Content-Length: ' . strlen($httpresp));
-                                    echo $httpresp;
-                                    exit;
+                        // the following parameters are either defaulted (see above) or 
+                        // set in the request header. they are not URL parameters.
+                        //      force downloads to client?
+                        if(isset($reqheader['FORCEDL'])) {
+                            $forcedl = (($reqheader['FORCEDL'] === 'yes') ? true : false);
+                        }
+                        //      remove the zipfile after all is done?
+                        if(isset($reqheader['RMVAFTER'])) {
+                            $rmvafter = (($reqheader['RMVAFTER'] === 'yes') ? true : false);
+                        }
+                        // check validity...
+                        if(!($forcedl === false && $rmvafter === true)) {
+                            if(isset($loc[_ZIPNAME])) {
+                                $zipfile = $g_ziptarg->ziploc . '/' . $loc[_ZIPNAME] . '.zip';
+                                header('zipname: ' . $loc[_ZIPNAME] . '.zip');
+                                $dbg_header('zipfile: ' . $zipfile);
+                                if(isset($loc[_FILEPATT])) {
+                                    $zippatt = $ziptarg . '/' . $loc[_FILEPATT];
+                                    $dbg_header('zippatt: ' . $zippatt);
+                                    $zipret = zipFiles($zippatt, $zipfile, $ziptarg);
                                 } else {
-                                    // forced download, 
-                                    if(file_exists($zipfile)) {
-                                        header('Content-Description: File Transfer');
-                                        // types the file as "binary"
-                                        header('Content-Type: application/octet-stream');
-                                        header('Content-Disposition: attachment; filename="'.basename($zipfile).'"');
-                                        header('Expires: 0');
-                                        header('Cache-Control: must-revalidate');
-                                        header('Pragma: public');
-                                        header('Content-Length: ' . filesize($zipfile));
-                                        header('HTTP/1.0 200 You got it! ' . $zipfile);
-                                        flush(); // Flush system output buffer
-                                        $rret = readfile($zipfile);
-                                        // it's optional to remove the zip file after the download
-                                        if($rmvafter == true) {
-                                            if($rret == true) {
-                                                unlink($zipfile);
-                                            }
-                                        }
+                                    $zippatt = $ziptarg;
+                                    $dbg_header('recur: ' . $zippatt);
+                                    $zipret = zipFilesRecursive($zippatt, $zipfile, $ziptarg);
+                                }
+                                if($zipret === true) {
+                                    if($forcedl === false) {
+                                        $httpresp = '{"found": "' . $found . '","ziptarg": "' . $ziptarg . '","zippatt": "' . $zippatt . '","zipfile": "' . $zipfile . '","pathid": "' . $pathid . '"}';
+                                        header('HTTP/1.0 200 OK');
+                                        header('Content-Type: application/json; charset=utf-8');
+                                        header('Content-Encoding: text');
+                                        header('Content-Length: ' . strlen($httpresp));
+                                        echo $httpresp;
                                         exit;
                                     } else {
-                                        $httpresp = '{"msg": "missing zip file!","data":["'.$zippatt.'","'.$zipfile.'"]}';
-                                        header('HTTP/1.0 404 Something important is missing');
+                                        // forced download, 
+                                        if(file_exists($zipfile)) {
+                                            header('Content-Description: File Transfer');
+                                            // types the file as "binary"
+                                            header('Content-Type: application/octet-stream');
+                                            header('Content-Disposition: attachment; filename="'.basename($zipfile).'"');
+                                            header('Expires: 0');
+                                            header('Cache-Control: must-revalidate');
+                                            header('Pragma: public');
+                                            header('Content-Length: ' . filesize($zipfile));
+                                            header('HTTP/1.0 200 You got it! ' . $zipfile);
+                                            flush(); // Flush system output buffer
+                                            $rret = readfile($zipfile);
+                                            // it's optional to remove the zip file after the download
+                                            if($rmvafter == true) {
+                                                if($rret == true) {
+                                                    unlink($zipfile);
+                                                }
+                                            }
+                                            exit;
+                                        } else {
+                                            $httpresp = '{"msg": "missing zip file!","data":["'.$zippatt.'","'.$zipfile.'"]}';
+                                            header('HTTP/1.0 404 Something important is missing');
+                                        }
                                     }
+                                } else {
+                                    $action = (isset($loc[_FILEPATT]) ? 'zipFiles' : 'zipFilesRecursive');
+                                    $httpresp = '{"msg": "'.$action.' failed!","data":["'.$zippatt.'","'.$zipfile.'"]}';
+                                    header('HTTP/1.0 500 Something is not working');
                                 }
                             } else {
-                                $action = (isset($loc[_FILEPATT]) ? 'zipFiles' : 'zipFilesRecursive');
-                                $httpresp = '{"msg": "'.$action.' failed!","data":["'.$zippatt.'","'.$zipfile.'"]}';
-                                header('HTTP/1.0 500 Something is not working');
+                                $httpresp = '{"msg": "Invalid path ID, '.$pathid.' is not a download path"}';
+                                header('HTTP/1.0 424 Invalid path ID - '.$pathid);
                             }
                         } else {
-                            $httpresp = '{"msg": "Invalid path ID, '.$pathid.' is not a download path"}';
-                            header('HTTP/1.0 424 Invalid path ID - '.$pathid);
+                            // this is invalid, if it's not downloaded then why remove it?
+                            $httpresp = '{"msg": "invalid forced-download & remove-after settings"}';
+                            header('HTTP/1.0 400 Awful Request');
                         }
                     } else { // if($_SERVER['REQUEST_METHOD'] === 'GET')
                         if($_SERVER['REQUEST_METHOD'] === 'PUT') {
