@@ -1,8 +1,3 @@
-<h1>DRAFT</h1>
-**THIS IS A WORK IN PROGRESS! Please be patient, I'm almost done!**
-
-**NOTE: Looking for individuals to download and tryout the instructions in the README. If there are any difficulties with the instructions please create an issue.**
-
 # Zip Remote
 
 This repository contains a utility that will zip files within a folder, **or** folder contents recursively on a remote web server and then download them to the client. The utility also has the ability to upload a zip file and optionally extract all or part of its contents.
